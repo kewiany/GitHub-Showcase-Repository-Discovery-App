@@ -1,21 +1,65 @@
 package xyz.kewiany.showcase
 
-import io.kotest.matchers.booleans.shouldBeTrue
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
+import xyz.kewiany.showcase.list.GetRepositories
+import xyz.kewiany.showcase.list.GetRepositoriesError.NoInternet
+import xyz.kewiany.showcase.list.GetRepositoriesError.Unknown
+import xyz.kewiany.showcase.list.GetRepositoriesResponse.Error
+import xyz.kewiany.showcase.list.GetRepositoriesResponse.Success
 import xyz.kewiany.showcase.list.ListState
 import xyz.kewiany.showcase.list.ListViewModel
+import xyz.kewiany.showcase.list.repositories
+import xyz.kewiany.showcase.utils.ErrorType
 
 internal class ListViewModelTest : CustomFreeSpec({
 
     "on list view model test" - {
         val commonState = CommonState()
         val state = ListState(commonState)
-        val viewModel = ListViewModel(state)
+        val getRepositories = mock<GetRepositories>()
+        val viewModel = ListViewModel(state, getRepositories, testDispatcherProvider)
 
         "on init" - {
 
-            "set loading" { commonState.isLoading.value.shouldBeTrue() }
-            "set items" { state.items.value.shouldBe(listOf("", "")) }
+            "set loading" { commonState.isLoading.value.shouldBeFalse() }
+            "set items" { state.items.value.shouldBe(emptyList()) }
+            "set no error" { state.error.value.shouldBeNull() }
+        }
+
+        "on load" - {
+
+            "on success response" - {
+                whenever(getRepositories()) doReturn Success(repositories)
+                viewModel.load()
+
+                "set state" { state.items.value.shouldBe(repositories) }
+            }
+
+            "on error response" - {
+
+                "on unknown error" - {
+                    whenever(getRepositories()) doReturn Error(Unknown)
+                    viewModel.load()
+
+                    "set state" { state.error.value.shouldBe(ErrorType.UNKNOWN) }
+                }
+
+                "on no internet error" - {
+                    whenever(getRepositories()) doReturn Error(NoInternet)
+                    viewModel.load()
+
+                    "set state" { state.error.value.shouldBe(ErrorType.NO_INTERNET) }
+                }
+            }
+
+            whenever(getRepositories()) doReturn Success(emptyList())
+            viewModel.load()
+            "set no error" { state.error.value.shouldBeNull() }
         }
     }
 })

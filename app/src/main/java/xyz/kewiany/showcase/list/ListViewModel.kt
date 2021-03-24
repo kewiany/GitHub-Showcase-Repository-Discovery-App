@@ -1,15 +1,52 @@
 package xyz.kewiany.showcase.list
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+import xyz.kewiany.showcase.list.GetRepositoriesError.NoInternet
+import xyz.kewiany.showcase.list.GetRepositoriesResponse.Error
+import xyz.kewiany.showcase.list.GetRepositoriesResponse.Success
+import xyz.kewiany.showcase.utils.DispatcherProvider
+import xyz.kewiany.showcase.utils.ErrorType
 
-class ListViewModel(listState: ListState) : ViewModel() {
+class ListViewModel(
+    private val state: ListState,
+    private val getRepositories: GetRepositories,
+    private val dispatchers: DispatcherProvider
+) : ViewModel() {
 
-    val isLoading: Flow<Boolean> = listState.commonState.isLoading
-    val items: Flow<List<String>> = listState.items
+    val isLoading: Flow<Boolean> = state.commonState.isLoading
+    val items: Flow<List<Repository>> = state.items
 
     init {
-        listState.commonState.isLoading.value = true
-        listState.items.value = listOf("", "")
+        state.commonState.isLoading.value = false
+        state.items.value = emptyList()
+        state.error.value = null
+    }
+
+    private suspend fun loadRepositories() {
+        when (val response = getRepositories()) {
+            is Success -> {
+                val items = response.repositories
+                state.items.value = items
+            }
+            is Error -> {
+                val error = if (response.error is NoInternet) ErrorType.NO_INTERNET else ErrorType.UNKNOWN
+                state.error.value = error
+            }
+        }
+    }
+
+    fun load() = viewModelScope.launch(dispatchers.main()) {
+        state.error.value = null
+        state.commonState.isLoading.value = true
+        try {
+            loadRepositories()
+        } catch (e: CancellationException) {
+            state.items.value = emptyList()
+        }
+        state.commonState.isLoading.value = false
     }
 }

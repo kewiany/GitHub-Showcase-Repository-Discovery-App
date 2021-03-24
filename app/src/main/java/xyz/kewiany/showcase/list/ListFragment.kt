@@ -27,7 +27,7 @@ class ListFragment : Fragment(R.layout.list_fragment) {
         println("isLoading $isLoading")
     }
 
-    private fun updateList(items: List<String>) {
+    private fun updateList(items: List<Repository>) {
         println("items $items")
     }
 }

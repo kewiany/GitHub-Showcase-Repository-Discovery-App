@@ -1,0 +1,43 @@
+package xyz.kewiany.showcase.list
+
+import kotlinx.coroutines.withContext
+import xyz.kewiany.showcase.list.GetRepositoriesError.NoInternet
+import xyz.kewiany.showcase.list.GetRepositoriesError.Unknown
+import xyz.kewiany.showcase.list.GetRepositoriesResponse.Error
+import xyz.kewiany.showcase.list.GetRepositoriesResponse.Success
+import xyz.kewiany.showcase.utils.DispatcherProvider
+import java.net.UnknownHostException
+
+interface GetRepositories {
+    suspend operator fun invoke(): GetRepositoriesResponse
+}
+
+class GetRepositoriesImpl(
+    private val dispatchers: DispatcherProvider
+) : GetRepositories {
+
+    override suspend fun invoke(): GetRepositoriesResponse = withContext(dispatchers.io()) {
+        try {
+            val response = repositories
+            Success(response)
+        } catch (e: Exception) {
+            val error = when (e) {
+                is UnknownHostException -> NoInternet
+                else -> Unknown
+            }
+            Error(error)
+        }
+    }
+}
+
+sealed class GetRepositoriesResponse {
+    data class Success(val repositories: List<Repository>) : GetRepositoriesResponse()
+    data class Error(val error: GetRepositoriesError) : GetRepositoriesResponse()
+}
+
+sealed class GetRepositoriesError {
+    object NoInternet : GetRepositoriesError()
+    object Unknown : GetRepositoriesError()
+}
+
+val repositories = listOf(Repository("1", "1"), Repository("2", "2"))
