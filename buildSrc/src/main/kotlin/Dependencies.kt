@@ -8,6 +8,7 @@ object BuildPlugin {
 
 object Library {
     const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+    const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
 
     object AndroidX {
         const val core = "androidx.core:core-ktx:1.3.2"

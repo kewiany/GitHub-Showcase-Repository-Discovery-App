@@ -39,6 +39,7 @@ dependencies {
     implementation(Library.Navigation.ui)
     implementation(Library.Koin.ext)
     implementation(Library.Koin.viewmodel)
+    implementation(Library.coroutinesCore)
     testImplementation(TestLibrary.Kotest.framework)
     testImplementation(TestLibrary.Kotest.assertions)
     testImplementation(TestLibrary.Kotest.property)
