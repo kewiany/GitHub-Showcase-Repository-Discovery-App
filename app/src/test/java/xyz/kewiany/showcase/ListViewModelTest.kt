@@ -2,6 +2,7 @@ package xyz.kewiany.showcase
 
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.nulls.shouldBeNull
@@ -15,6 +16,7 @@ import xyz.kewiany.showcase.list.ListState
 import xyz.kewiany.showcase.list.ListViewModel
 import xyz.kewiany.showcase.list.repositories
 import xyz.kewiany.showcase.utils.ErrorType
+import xyz.kewiany.showcase.utils.NavigationCommander
 
 internal class ListViewModelTest : CustomFreeSpec({
 
@@ -22,7 +24,8 @@ internal class ListViewModelTest : CustomFreeSpec({
         val commonState = CommonState()
         val state = ListState(commonState)
         val getRepositories = mock<GetRepositories>()
-        val viewModel = ListViewModel(state, getRepositories, testDispatcherProvider)
+        val navigationCommander = mock<NavigationCommander>()
+        val viewModel = ListViewModel(state, getRepositories, navigationCommander, testDispatcherProvider)
 
         "on init" - {
 
@@ -60,6 +63,12 @@ internal class ListViewModelTest : CustomFreeSpec({
             whenever(getRepositories()) doReturn Success(emptyList())
             viewModel.load()
             "set no error" { state.error.value.shouldBeNull() }
+        }
+
+        "on open details" - {
+            viewModel.openDetails()
+
+            "navigate" { verify(navigationCommander).navigate(R.id.action_listFragment_to_detailsFragment) }
         }
     }
 })

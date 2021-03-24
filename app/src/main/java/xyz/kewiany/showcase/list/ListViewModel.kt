@@ -5,15 +5,18 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import xyz.kewiany.showcase.R
 import xyz.kewiany.showcase.list.GetRepositoriesError.NoInternet
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Error
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Success
 import xyz.kewiany.showcase.utils.DispatcherProvider
 import xyz.kewiany.showcase.utils.ErrorType
+import xyz.kewiany.showcase.utils.NavigationCommander
 
 class ListViewModel(
     private val state: ListState,
     private val getRepositories: GetRepositories,
+    private val navigationCommander: NavigationCommander,
     private val dispatchers: DispatcherProvider
 ) : ViewModel() {
 
@@ -48,5 +51,9 @@ class ListViewModel(
             state.items.value = emptyList()
         }
         state.commonState.isLoading.value = false
+    }
+
+    fun openDetails() {
+        navigationCommander.navigate(R.id.action_listFragment_to_detailsFragment)
     }
 }

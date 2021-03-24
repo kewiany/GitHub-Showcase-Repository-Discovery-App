@@ -18,5 +18,5 @@ val mainModule = module {
     single<NavigationCommander> { NavigationCommanderImpl(::mainNavController) }
     single<GetRepositories> { GetRepositoriesImpl(dispatchers) }
     viewModel { SplashViewModel(get(), dispatchers) }
-    viewModel { ListViewModel(state.listState, get(), dispatchers) }
+    viewModel { ListViewModel(state.listState, get(), get(), dispatchers) }
 }
