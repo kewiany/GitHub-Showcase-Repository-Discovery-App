@@ -22,6 +22,7 @@ class ListViewModel(
 
     val isLoading: Flow<Boolean> = state.commonState.isLoading
     val items: Flow<List<Repository>> = state.items
+    val error: Flow<ErrorType?> = state.error
 
     init {
         state.commonState.isLoading.value = false

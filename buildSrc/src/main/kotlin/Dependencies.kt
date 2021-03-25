@@ -25,6 +25,8 @@ object Library {
         const val viewmodel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
     }
 
+    const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.0-beta01"
     const val material = "com.google.android.material:material:1.2.1"
 }
 
