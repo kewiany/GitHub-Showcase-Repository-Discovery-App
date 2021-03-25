@@ -1,6 +1,7 @@
 package xyz.kewiany.showcase.list
 
 import kotlinx.coroutines.withContext
+import xyz.kewiany.showcase.api.RepositoryApi
 import xyz.kewiany.showcase.list.GetRepositoriesError.NoInternet
 import xyz.kewiany.showcase.list.GetRepositoriesError.Unknown
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Error
@@ -13,13 +14,15 @@ interface GetRepositories {
 }
 
 class GetRepositoriesImpl(
+    private val repositoryApi: RepositoryApi,
     private val dispatchers: DispatcherProvider
 ) : GetRepositories {
 
     override suspend fun invoke(): GetRepositoriesResponse = withContext(dispatchers.io()) {
         try {
-            val response = repositories
-            Success(response)
+            val response = repositoryApi.getRepositories("test")
+            val data = response?.repositories
+            Success(requireNotNull(data))
         } catch (e: Exception) {
             val error = when (e) {
                 is UnknownHostException -> NoInternet

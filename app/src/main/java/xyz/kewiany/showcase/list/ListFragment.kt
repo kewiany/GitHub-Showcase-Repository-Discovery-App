@@ -26,6 +26,7 @@ class ListFragment : Fragment(R.layout.list_fragment) {
             launch { viewModel.items.collect { updateList(it) } }
             launch { viewModel.error.collect { updateError(it) } }
         }
+        viewModel.load()
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
@@ -33,7 +34,7 @@ class ListFragment : Fragment(R.layout.list_fragment) {
     }
 
     private fun updateList(items: List<Repository>) {
-
+        println("items $items")
     }
 
     private fun updateError(errorType: ErrorType?) {

@@ -2,6 +2,7 @@ plugins {
     id(BuildPlugin.androidApplication)
     id(BuildPlugin.kotlinAndroid)
     id(BuildPlugin.kotlinAndroidExtensions)
+    id("kotlinx-serialization") version "1.3.60"
 }
 
 android {
@@ -42,6 +43,10 @@ dependencies {
     implementation(Library.coroutinesCore)
     implementation(Library.constraintLayout)
     implementation(Library.swipeRefreshLayout)
+    implementation(Library.serializationJson)
+    implementation(Library.Fuel.core)
+    implementation(Library.Fuel.coroutines)
+    implementation(Library.Fuel.kotlinXSerialization)
     testImplementation(TestLibrary.Kotest.framework)
     testImplementation(TestLibrary.Kotest.assertions)
     testImplementation(TestLibrary.Kotest.property)

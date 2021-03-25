@@ -4,11 +4,13 @@ object BuildPlugin {
     const val kotlinAndroidExtensions = "kotlin-android-extensions"
     const val androidGradlePlugin = "com.android.tools.build:gradle:4.2.0-alpha16"
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    const val kotlinSerializationPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
 }
 
 object Library {
-    const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+    const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.60"
     const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
+    const val serializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
 
     object AndroidX {
         const val core = "androidx.core:core-ktx:1.3.2"
@@ -23,6 +25,12 @@ object Library {
     object Koin {
         const val ext = "org.koin:koin-androidx-ext:${Versions.koin}"
         const val viewmodel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
+    }
+
+    object Fuel {
+        const val core = "com.github.kittinunf.fuel:fuel:${Versions.fuel}"
+        const val coroutines = "com.github.kittinunf.fuel:fuel-coroutines:${Versions.fuel}"
+        const val kotlinXSerialization = "com.github.kittinunf.fuel:fuel-kotlinx-serialization:${Versions.fuel}"
     }
 
     const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
