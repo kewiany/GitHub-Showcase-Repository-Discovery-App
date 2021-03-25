@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import kotlinx.android.synthetic.main.details_fragment.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.kewiany.showcase.R
+import xyz.kewiany.showcase.utils.ErrorType
 import xyz.kewiany.showcase.utils.setStandardScreenMode
+import xyz.kewiany.showcase.utils.snackBar
+import xyz.kewiany.showcase.utils.translate
 
 class DetailsFragment : Fragment(R.layout.details_fragment) {
 
@@ -21,18 +25,22 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
             launch { viewModel.isLoading.collect { updateIsLoading(it) } }
             launch { viewModel.name.collect { updateName(it) } }
             launch { viewModel.description.collect { updateDescription(it) } }
+            launch { viewModel.error.collect { updateError((it)) } }
         }
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
-        println("isLoading $isLoading")
+        detailsSwipeRefreshLayout.isRefreshing = isLoading
     }
 
     private fun updateName(name: String) {
-        println("name $name")
     }
 
     private fun updateDescription(description: String) {
-        println("description $description")
+    }
+
+    private fun updateError(errorType: ErrorType?) {
+        errorType ?: return
+        detailsCoordinatorLayout.snackBar(errorType.translate(requireContext()))
     }
 }

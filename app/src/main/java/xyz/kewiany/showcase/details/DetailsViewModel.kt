@@ -22,6 +22,7 @@ class DetailsViewModel(
     val isLoading: Flow<Boolean> = state.commonState.isLoading
     val name: Flow<String> = state.name
     val description: Flow<String> = state.description
+    val error: Flow<ErrorType?> = state.error
 
     init {
         state.commonState.isLoading.value = false
