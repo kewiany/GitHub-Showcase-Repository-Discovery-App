@@ -12,20 +12,16 @@ internal class SplashViewModelTest : CustomFreeSpec({
         val navigationCommander = mock<NavigationCommander>()
         val viewModel = SplashViewModel(navigationCommander, testDispatcherProvider)
 
-        "on create" - {
-            viewModel.create()
+        "after 1000 milliseconds" - {
+            testScope.advanceTimeBy(1000)
 
-            "after 1000 milliseconds" - {
-                testScope.advanceTimeBy(1000)
+            "do not navigate" { verify(navigationCommander, never()).navigate(R.id.action_splashFragment_to_listFragment) }
+        }
 
-                "do not navigate" { verify(navigationCommander, never()).navigate(R.id.action_splashFragment_to_listFragment) }
-            }
+        "after 1500 milliseconds" - {
+            testScope.advanceTimeBy(1500)
 
-            "after 1500 milliseconds" - {
-                testScope.advanceTimeBy(1500)
-
-                "navigate" { verify(navigationCommander).navigate(R.id.action_splashFragment_to_listFragment) }
-            }
+            "navigate" { verify(navigationCommander).navigate(R.id.action_splashFragment_to_listFragment) }
         }
     }
 })

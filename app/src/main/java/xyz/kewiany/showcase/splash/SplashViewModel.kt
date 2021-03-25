@@ -1,6 +1,7 @@
 package xyz.kewiany.showcase.splash
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import xyz.kewiany.showcase.R
@@ -10,11 +11,10 @@ import xyz.kewiany.showcase.utils.NavigationCommander
 
 class SplashViewModel(
     private val navigationCommander: NavigationCommander,
-    private val dispatcherProvider: DispatcherProvider
-) : ViewModel(), LifecycleObserver {
+    dispatcherProvider: DispatcherProvider
+) : ViewModel() {
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun create() {
+    init {
         viewModelScope.launch(dispatcherProvider.main()) {
             delay(SPLASH_SCREEN_DURATION_IN_MS)
             navigationCommander.navigate(R.id.action_splashFragment_to_listFragment)

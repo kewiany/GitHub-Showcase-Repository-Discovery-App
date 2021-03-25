@@ -25,10 +25,11 @@ internal class ListViewModelTest : CustomFreeSpec({
         val state = ListState(commonState)
         val getRepositories = mock<GetRepositories>()
         val navigationCommander = mock<NavigationCommander>()
-        val viewModel = ListViewModel(state, getRepositories, navigationCommander, testDispatcherProvider)
+
+        fun viewModel(): ListViewModel = ListViewModel(state, getRepositories, navigationCommander, testDispatcherProvider)
 
         "on init" - {
-
+            viewModel()
             "set loading" { commonState.isLoading.value.shouldBeFalse() }
             "set items" { state.items.value.shouldBe(emptyList()) }
             "set no error" { state.error.value.shouldBeNull() }
@@ -38,7 +39,7 @@ internal class ListViewModelTest : CustomFreeSpec({
 
             "on success response" - {
                 whenever(getRepositories()) doReturn Success(repositories)
-                viewModel.load()
+                viewModel()
 
                 "set state" { state.items.value.shouldBe(repositories) }
             }
@@ -47,26 +48,29 @@ internal class ListViewModelTest : CustomFreeSpec({
 
                 "on unknown error" - {
                     whenever(getRepositories()) doReturn Error(Unknown)
-                    viewModel.load()
+                    viewModel()
 
                     "set state" { state.error.value.shouldBe(ErrorType.UNKNOWN) }
                 }
 
                 "on no internet error" - {
                     whenever(getRepositories()) doReturn Error(NoInternet)
-                    viewModel.load()
+                    viewModel()
 
                     "set state" { state.error.value.shouldBe(ErrorType.NO_INTERNET) }
                 }
             }
+        }
 
+        "on refresh" - {
             whenever(getRepositories()) doReturn Success(emptyList())
-            viewModel.load()
+            viewModel()
+
             "set no error" { state.error.value.shouldBeNull() }
         }
 
         "on open details" - {
-            viewModel.openDetails()
+            viewModel().openDetails()
 
             "navigate" { verify(navigationCommander).navigate(R.id.action_listFragment_to_detailsFragment) }
         }
