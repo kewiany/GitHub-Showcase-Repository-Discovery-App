@@ -27,6 +27,7 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
             launch { viewModel.description.collect { updateDescription(it) } }
             launch { viewModel.error.collect { updateError((it)) } }
         }
+        detailsBackButton.setOnClickListener { viewModel.back() }
     }
 
     private fun updateIsLoading(isLoading: Boolean) {

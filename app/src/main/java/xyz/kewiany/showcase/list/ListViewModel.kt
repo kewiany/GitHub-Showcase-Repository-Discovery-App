@@ -54,7 +54,8 @@ class ListViewModel(
         state.commonState.isLoading.value = false
     }
 
-    fun openDetails() {
+    fun openDetails(id: Long) {
+        state.error.value = null
         navigationCommander.navigate(R.id.action_listFragment_to_detailsFragment)
     }
 }
