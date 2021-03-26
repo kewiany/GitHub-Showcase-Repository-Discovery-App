@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.main_activity.*
 import org.koin.android.ext.android.inject
+import xyz.kewiany.showcase.list.ListFragment
 import xyz.kewiany.showcase.utils.NavigationCommander
 
 class MainActivity : AppCompatActivity(R.layout.main_activity) {
@@ -18,7 +19,11 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
     }
 
     override fun onBackPressed() {
-        navigationCommander.popBackStack()
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment)
+        when (navHostFragment?.childFragmentManager?.fragments?.firstOrNull()) {
+            is ListFragment -> finish()
+            else -> navigationCommander.popBackStack()
+        }
     }
 }
 
