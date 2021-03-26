@@ -12,7 +12,6 @@ import xyz.kewiany.showcase.list.GetRepositoriesResponse.Error
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Success
 import xyz.kewiany.showcase.list.ListState
 import xyz.kewiany.showcase.list.ListViewModel
-import xyz.kewiany.showcase.list.repositories
 import xyz.kewiany.showcase.utils.ErrorType
 import xyz.kewiany.showcase.utils.NavigationCommander
 import kotlin.coroutines.resume
@@ -79,7 +78,7 @@ internal class ListViewModelTest : CustomFreeSpec({
         }
 
         "on open details" - {
-            viewModel().openDetails()
+            viewModel().openDetails(0)
 
             "navigate" { verify(navigationCommander).navigate(R.id.action_listFragment_to_detailsFragment) }
         }

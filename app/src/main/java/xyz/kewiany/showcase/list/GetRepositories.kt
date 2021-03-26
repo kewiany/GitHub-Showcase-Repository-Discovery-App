@@ -42,5 +42,3 @@ sealed class GetRepositoriesError {
     object NoInternet : GetRepositoriesError()
     object Unknown : GetRepositoriesError()
 }
-
-val repositories = listOf(Repository("1", "1"), Repository("2", "2"))

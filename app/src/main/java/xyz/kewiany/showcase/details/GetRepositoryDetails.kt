@@ -6,7 +6,6 @@ import xyz.kewiany.showcase.details.GetRepositoryDetailsError.Unknown
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Error
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Success
 import xyz.kewiany.showcase.list.Repository
-import xyz.kewiany.showcase.list.repositories
 import xyz.kewiany.showcase.utils.DispatcherProvider
 import java.net.UnknownHostException
 
@@ -20,8 +19,7 @@ class GetRepositoryDetailsImpl(
 
     override suspend fun invoke(id: Long): GetRepositoryDetailsResponse = withContext(dispatchers.io()) {
         try {
-            val response = repositories[id.toInt()]
-            Success(response)
+            Success(Repository(0, "name", "description"))
         } catch (e: Exception) {
             val error = when (e) {
                 is UnknownHostException -> NoInternet

@@ -5,7 +5,6 @@ import xyz.kewiany.showcase.details.GetRepositoryDetails
 import xyz.kewiany.showcase.details.GetRepositoryDetailsImpl
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Success
-import xyz.kewiany.showcase.list.repositories
 
 internal class GetRepositoryDetailsTest : CustomFreeSpec({
 
@@ -13,10 +12,10 @@ internal class GetRepositoryDetailsTest : CustomFreeSpec({
         val getRepositoryDetails: GetRepositoryDetails = GetRepositoryDetailsImpl(testDispatcherProvider)
 
         var response: GetRepositoryDetailsResponse? = null
-        response = getRepositoryDetails(0)
+        response = getRepositoryDetails(repository.id)
 
         "get repository details with success" {
-            response shouldBe Success(repositories.first())
+            response shouldBe Success(repository)
         }
     }
 })

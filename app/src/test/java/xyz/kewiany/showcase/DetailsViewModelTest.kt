@@ -13,7 +13,6 @@ import xyz.kewiany.showcase.details.GetRepositoryDetails
 import xyz.kewiany.showcase.details.GetRepositoryDetailsError
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Error
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Success
-import xyz.kewiany.showcase.list.repositories
 import xyz.kewiany.showcase.utils.ErrorType
 import xyz.kewiany.showcase.utils.NavigationCommander
 
@@ -38,11 +37,11 @@ internal class DetailsViewModelTest : CustomFreeSpec({
         "on load" - {
 
             "on success response" - {
-                whenever(getRepositoryDetails(id)) doReturn Success(repositories.first())
+                whenever(getRepositoryDetails(id)) doReturn Success(repository)
                 viewModel.load(id)
 
                 "set name" { state.name.value.shouldBe(repository.name) }
-                "set description" { state.name.value.shouldBe(repository.description) }
+                "set description" { state.description.value.shouldBe(repository.description) }
             }
 
             "on error response" - {
