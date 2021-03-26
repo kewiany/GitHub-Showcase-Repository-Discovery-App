@@ -49,4 +49,5 @@ object TestLibrary {
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3"
     const val junit = "junit:junit:4.12"
     const val mockito = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockito}"
+    const val smokk = "com.github.langara:SMokK:0.0.3"
 }

@@ -53,6 +53,7 @@ dependencies {
     testImplementation(TestLibrary.coroutines)
     testImplementation(TestLibrary.junit)
     testImplementation(TestLibrary.mockito)
+    testImplementation(TestLibrary.smokk)
 }
 
 tasks.withType<Test> {
