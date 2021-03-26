@@ -20,11 +20,19 @@
         tools:layout="@layout/list_fragment">
         <action
             android:id="@+id/action_listFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
+            app:destination="@id/detailsFragment">
+            <argument
+                android:name="repositoryId"
+                app:argType="long" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
         android:name="xyz.kewiany.showcase.details.DetailsFragment"
         android:label="DetailsFragment"
-        tools:layout="@layout/details_fragment" />
+        tools:layout="@layout/details_fragment">
+        <argument
+            android:name="repositoryId"
+            app:argType="long" />
+    </fragment>
 </navigation>

@@ -21,10 +21,10 @@ val mainModule = module {
     val state = AppState()
     val dispatchers = DefaultDispatcherProvider
     single<NavigationCommander> { NavigationCommanderImpl(::mainNavController) }
-    val path = "https://api.github.com/search"
+    val path = "https://api.github.com"
     single<RepositoryApi> { RepositoryService(path) }
     single<GetRepositories> { GetRepositoriesImpl(get(), dispatchers) }
-    single<GetRepositoryDetails> { GetRepositoryDetailsImpl(dispatchers) }
+    single<GetRepositoryDetails> { GetRepositoryDetailsImpl(get(), dispatchers) }
     viewModel { SplashViewModel(get(), dispatchers) }
     viewModel { ListViewModel(state.listState, get(), get(), dispatchers) }
     viewModel { DetailsViewModel(state.detailsState, get(), get(), dispatchers) }

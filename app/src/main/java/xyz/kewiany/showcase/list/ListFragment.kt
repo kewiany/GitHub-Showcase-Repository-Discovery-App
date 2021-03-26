@@ -36,7 +36,7 @@ class ListFragment : Fragment(R.layout.list_fragment) {
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
-        listSwipeRefreshLayout.isRefreshing = isLoading
+        listSwipeRefreshLayout?.isRefreshing = isLoading
     }
 
     private fun updateList(repositories: List<Repository>) {

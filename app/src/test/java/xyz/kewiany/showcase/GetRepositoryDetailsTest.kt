@@ -1,21 +1,57 @@
 package xyz.kewiany.showcase
 
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import io.kotest.matchers.shouldBe
+import xyz.kewiany.showcase.api.RepositoryApi
 import xyz.kewiany.showcase.details.GetRepositoryDetails
+import xyz.kewiany.showcase.details.GetRepositoryDetailsError.NoInternet
+import xyz.kewiany.showcase.details.GetRepositoryDetailsError.Unknown
 import xyz.kewiany.showcase.details.GetRepositoryDetailsImpl
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse
+import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Error
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Success
+import java.net.UnknownHostException
 
 internal class GetRepositoryDetailsTest : CustomFreeSpec({
 
     "on get repository details test" - {
-        val getRepositoryDetails: GetRepositoryDetails = GetRepositoryDetailsImpl(testDispatcherProvider)
-
+        val api = mock<RepositoryApi>()
+        val getRepositoryDetails: GetRepositoryDetails = GetRepositoryDetailsImpl(api, testDispatcherProvider)
+        val repository = repository
+        val id = repository.id
         var response: GetRepositoryDetailsResponse? = null
-        response = getRepositoryDetails(repository.id)
 
-        "get repository details with success" {
-            response shouldBe Success(repository)
+        suspend fun getRepository(id: Long) {
+            response = getRepositoryDetails(id)
+        }
+
+        "get repository" {
+            getRepository(id)
+            verify(api).getRepository(id)
+        }
+
+        "get repository details with success" - {
+            whenever(api.getRepository(id)) doReturn repository
+            getRepository(id)
+
+            "return success" { response shouldBe Success(repository) }
+        }
+
+        "get repositories with no internet" - {
+            whenever(api.getRepository(id)).then { throw UnknownHostException() }
+            getRepository(id)
+
+            "return error" { response shouldBe Error(NoInternet) }
+        }
+
+        "get repositories failing" - {
+            whenever(api.getRepository(id)).then { throw Exception() }
+            getRepository(id)
+
+            "return error" { response shouldBe Error(Unknown) }
         }
     }
 })

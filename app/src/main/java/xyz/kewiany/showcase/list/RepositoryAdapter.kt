@@ -27,7 +27,7 @@ class RepositoryAdapter(
         fun bind(repository: Repository) = with(itemView) {
             repositoryNameTextView.text = repository.name
             repositoryDescriptionTextView.text = repository.description
-            setOnClickListener { onClick(0) }
+            setOnClickListener { onClick(repository.id) }
         }
     }
 }

@@ -6,6 +6,7 @@ import xyz.kewiany.showcase.list.Repository
 
 interface RepositoryApi {
     suspend fun getRepositories(query: String): RepositoriesResponse?
+    suspend fun getRepository(id: Long): Repository?
 }
 
 @Serializable

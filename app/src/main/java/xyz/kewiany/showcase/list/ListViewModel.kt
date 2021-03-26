@@ -9,6 +9,7 @@ import xyz.kewiany.showcase.R
 import xyz.kewiany.showcase.list.GetRepositoriesError.NoInternet
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Error
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Success
+import xyz.kewiany.showcase.utils.Constant.REPOSITORY_KEY
 import xyz.kewiany.showcase.utils.DispatcherProvider
 import xyz.kewiany.showcase.utils.ErrorType
 import xyz.kewiany.showcase.utils.NavigationCommander
@@ -56,6 +57,6 @@ class ListViewModel(
 
     fun openDetails(id: Long) {
         state.error.value = null
-        navigationCommander.navigate(R.id.action_listFragment_to_detailsFragment)
+        navigationCommander.navigate(R.id.action_listFragment_to_detailsFragment, REPOSITORY_KEY to id)
     }
 }
