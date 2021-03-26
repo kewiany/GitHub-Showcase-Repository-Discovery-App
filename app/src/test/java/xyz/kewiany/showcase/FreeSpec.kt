@@ -1,6 +1,7 @@
 package xyz.kewiany.showcase
 
 import io.kotest.core.Tuple2
+import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
@@ -35,4 +36,6 @@ abstract class CustomFreeSpec constructor(
         Dispatchers.resetMain()
         testDispatcher.cleanupTestCoroutines()
     }
+
+    override fun isolationMode() = IsolationMode.InstancePerLeaf
 }

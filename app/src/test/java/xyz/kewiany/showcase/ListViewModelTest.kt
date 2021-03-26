@@ -1,9 +1,6 @@
 package xyz.kewiany.showcase
 
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
@@ -26,13 +23,19 @@ internal class ListViewModelTest : CustomFreeSpec({
         val getRepositories = mock<GetRepositories>()
         val navigationCommander = mock<NavigationCommander>()
 
-        fun viewModel(): ListViewModel = ListViewModel(state, getRepositories, navigationCommander, testDispatcherProvider)
+        fun viewModel(): ListViewModel = ListViewModel(
+            state,
+            getRepositories,
+            navigationCommander,
+            testDispatcherProvider
+        )
 
         "on init" - {
             viewModel()
             "set loading" { commonState.isLoading.value.shouldBeFalse() }
             "set items" { state.items.value.shouldBe(emptyList()) }
             "set no error" { state.error.value.shouldBeNull() }
+            "get repositories" { verify(getRepositories).invoke() }
         }
 
         "on load" - {
@@ -64,8 +67,9 @@ internal class ListViewModelTest : CustomFreeSpec({
 
         "on refresh" - {
             whenever(getRepositories()) doReturn Success(emptyList())
-            viewModel()
+            viewModel().load()
 
+            "get repositories" { verify(getRepositories, times(2)).invoke() }
             "set no error" { state.error.value.shouldBeNull() }
         }
 

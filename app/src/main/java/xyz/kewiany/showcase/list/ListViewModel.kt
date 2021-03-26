@@ -24,8 +24,6 @@ class ListViewModel(
     val items: Flow<List<Repository>> = state.items
     val error: Flow<ErrorType?> = state.error
 
-    private var cachedItems: List<Repository> = emptyList()
-
     init {
         state.commonState.isLoading.value = false
         state.items.value = emptyList()
@@ -36,9 +34,7 @@ class ListViewModel(
     private suspend fun loadRepositories() {
         when (val response = getRepositories()) {
             is Success -> {
-                val items = response.repositories
-                cachedItems = items
-                state.items.value = cachedItems
+                state.items.value = response.repositories
             }
             is Error -> {
                 val error = if (response.error is NoInternet) ErrorType.NO_INTERNET else ErrorType.UNKNOWN
