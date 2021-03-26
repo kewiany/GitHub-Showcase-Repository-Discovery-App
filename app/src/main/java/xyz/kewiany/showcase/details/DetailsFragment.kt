@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.kewiany.showcase.R
+import xyz.kewiany.showcase.list.User
 import xyz.kewiany.showcase.utils.Constant.REPOSITORY_KEY
 import xyz.kewiany.showcase.utils.ErrorType
 import xyz.kewiany.showcase.utils.setStandardScreenMode
@@ -27,6 +28,8 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
             launch { viewModel.isLoading.collect { updateIsLoading(it) } }
             launch { viewModel.name.collect { updateName(it) } }
             launch { viewModel.description.collect { updateDescription(it) } }
+            launch { viewModel.userName.collect { updateUserName(it) } }
+            launch { viewModel.followers.collect { updateUserFollowers(it) } }
             launch { viewModel.error.collect { updateError((it)) } }
         }
         detailsBackButton.setOnClickListener { viewModel.back() }
@@ -44,6 +47,14 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
 
     private fun updateDescription(description: String) {
         detailsDescriptionTextView.text = description
+    }
+
+    private fun updateUserName(userName: String) {
+        detailsUserName.text = userName
+    }
+
+    private fun updateUserFollowers(followers: List<User>) {
+        detailsUserFollowersList.text = followers.toString()
     }
 
     private fun updateError(errorType: ErrorType?) {

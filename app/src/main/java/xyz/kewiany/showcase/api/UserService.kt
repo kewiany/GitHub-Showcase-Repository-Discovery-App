@@ -5,15 +5,15 @@ import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.coroutines.awaitStringResponse
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import xyz.kewiany.showcase.list.Repository
+import xyz.kewiany.showcase.list.User
 
-class RepositoryService(private val path: String) : RepositoryApi {
+class UserService(private val path: String) : UserApi {
 
     private val format = Json { ignoreUnknownKeys = true }
 
-    override suspend fun getRepositories(query: String): RepositoriesResponse? {
+    override suspend fun getFollowersForUser(name: String): List<User>? {
         return try {
-            val (_, _, result) = Fuel.get("$path/search/repositories?q=$query/")
+            val (_, _, result) = Fuel.get("$path/$name/followers")
                 .awaitStringResponse()
             format.decodeFromString(result)
         } catch (e: FuelError) {
@@ -21,12 +21,13 @@ class RepositoryService(private val path: String) : RepositoryApi {
         }
     }
 
-    override suspend fun getRepository(id: Long): Repository? {
+    override suspend fun getUser(name: String): User? {
         return try {
-            val (_, _, result) = Fuel.get("$path/repositories/$id")
+            val (_, _, result) = Fuel.get("$path/$name")
                 .awaitStringResponse()
             format.decodeFromString(result)
         } catch (e: FuelError) {
+            println(e)
             throw e.exception
         }
     }

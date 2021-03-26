@@ -8,3 +8,8 @@ val repositories = listOf(
 val repository = repositories[0]
 val repositoriesResponse = RepositoriesResponse(repositories)
 
+val users = listOf(
+    createUser(), createUser(), createUser()
+)
+
+val user = createUser()

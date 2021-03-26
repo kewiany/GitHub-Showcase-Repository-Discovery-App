@@ -5,9 +5,9 @@ import org.koin.dsl.module
 import xyz.kewiany.showcase.AppState
 import xyz.kewiany.showcase.api.RepositoryApi
 import xyz.kewiany.showcase.api.RepositoryService
-import xyz.kewiany.showcase.details.DetailsViewModel
-import xyz.kewiany.showcase.details.GetRepositoryDetails
-import xyz.kewiany.showcase.details.GetRepositoryDetailsImpl
+import xyz.kewiany.showcase.api.UserApi
+import xyz.kewiany.showcase.api.UserService
+import xyz.kewiany.showcase.details.*
 import xyz.kewiany.showcase.list.GetRepositories
 import xyz.kewiany.showcase.list.GetRepositoriesImpl
 import xyz.kewiany.showcase.list.ListViewModel
@@ -23,9 +23,11 @@ val mainModule = module {
     single<NavigationCommander> { NavigationCommanderImpl(::mainNavController) }
     val path = "https://api.github.com"
     single<RepositoryApi> { RepositoryService(path) }
+    single<UserApi> { UserService("$path/users") }
     single<GetRepositories> { GetRepositoriesImpl(get(), dispatchers) }
     single<GetRepositoryDetails> { GetRepositoryDetailsImpl(get(), dispatchers) }
+    single<GetUser> { GetUserImpl(get(), dispatchers) }
     viewModel { SplashViewModel(get(), dispatchers) }
     viewModel { ListViewModel(state.listState, get(), get(), dispatchers) }
-    viewModel { DetailsViewModel(state.detailsState, get(), get(), dispatchers) }
+    viewModel { DetailsViewModel(state.detailsState, get(), get(), get(), dispatchers) }
 }
