@@ -11,7 +11,7 @@ import xyz.kewiany.showcase.utils.DispatcherProvider
 import java.net.UnknownHostException
 
 interface GetRepositories {
-    suspend operator fun invoke(): GetRepositoriesResponse
+    suspend operator fun invoke(query: String): GetRepositoriesResponse
 }
 
 class GetRepositoriesImpl(
@@ -19,9 +19,9 @@ class GetRepositoriesImpl(
     private val dispatchers: DispatcherProvider
 ) : GetRepositories {
 
-    override suspend fun invoke(): GetRepositoriesResponse = withContext(dispatchers.io()) {
+    override suspend fun invoke(query: String): GetRepositoriesResponse = withContext(dispatchers.io()) {
         try {
-            val response = repositoryApi.getRepositories("test")
+            val response = repositoryApi.getRepositories(query)
             val data = response?.repositories
             Success(requireNotNull(data))
         } catch (e: Exception) {

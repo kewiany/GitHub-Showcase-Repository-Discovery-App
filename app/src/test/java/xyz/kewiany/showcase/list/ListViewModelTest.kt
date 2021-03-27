@@ -6,6 +6,7 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
+import net.bytebuddy.utility.RandomString
 import xyz.kewiany.showcase.CommonState
 import xyz.kewiany.showcase.CustomFreeSpec
 import xyz.kewiany.showcase.R
@@ -23,6 +24,7 @@ internal class ListViewModelTest : CustomFreeSpec({
         val state = ListState(commonState)
         val getRepositories = MockGetRepositories()
         val navigationCommander = mock<NavigationCommander>()
+        val query = RandomString.make()
 
         fun viewModel(): ListViewModel = ListViewModel(
             state,
@@ -36,27 +38,34 @@ internal class ListViewModelTest : CustomFreeSpec({
 
             "set items" { state.items.value.shouldBe(emptyList()) }
             "set no error" { state.error.value.shouldBeNull() }
-            "set loading" { commonState.isLoading.value.shouldBeTrue() }
-            "get repositories" { getRepositories.get.invocations shouldBe 1 }
-            getRepositories.get.resume(Success(emptyList()))
+            "get repositories" { getRepositories.get.invocations.count() shouldBe 0 }
             "set no loading" { commonState.isLoading.value.shouldBeFalse() }
         }
 
         "on load" - {
 
             "on success response" - {
-                viewModel()
-                getRepositories.get.resume(Success(repositories))
+                with(viewModel()) {
+                    updateQuery(query)
+                }
+                testScope.advanceTimeBy(500L)
 
+                "set loading" { commonState.isLoading.value.shouldBeTrue() }
+                getRepositories.get.resume(Success(repositories))
                 "set state" { state.items.value.shouldBe(repositories) }
+                "set no loading" { commonState.isLoading.value.shouldBeFalse() }
             }
 
             "on error response" - {
                 listOf(Unknown to ErrorType.UNKNOWN, NoInternet to ErrorType.NO_INTERNET).forEach { (error, errorType) ->
                     "on $error" - {
-                        viewModel()
-                        getRepositories.get.resume(Error(error))
+                        with(viewModel()) {
+                            updateQuery(query)
+                        }
+                        testScope.advanceTimeBy(500L)
 
+                        "set loading" { commonState.isLoading.value.shouldBeTrue() }
+                        getRepositories.get.resume(Error(error))
                         "set state" { state.error.value.shouldBe(errorType) }
                         "set no loading" { commonState.isLoading.value.shouldBeFalse() }
                     }
@@ -64,15 +73,49 @@ internal class ListViewModelTest : CustomFreeSpec({
             }
         }
 
+        "on update query" - {
+            with(viewModel()) {
+                updateQuery(query)
+
+                "after 100 milliseconds" - {
+                    testScope.advanceTimeBy(100L)
+                    "get repositories" { getRepositories.get.invocations.count() shouldBe 0 }
+
+                    "on update query" - {
+                        updateQuery(query)
+                        testScope.advanceTimeBy(500L)
+                        "get repositories" { getRepositories.get.invocations.count() shouldBe 1 }
+                    }
+                }
+
+                "after 500 milliseconds" - {
+                    testScope.advanceTimeBy(500L)
+                    "get repositories" { getRepositories.get.invocations.count() shouldBe 1 }
+                    getRepositories.get.resume(Success(emptyList()))
+
+                    "on update same query" - {
+                        updateQuery(query)
+                        testScope.advanceTimeBy(500L)
+                        "get repositories" { getRepositories.get.invocations.count() shouldBe 1 }
+                    }
+
+                    "on update different query" - {
+                        updateQuery(query + query)
+                        testScope.advanceTimeBy(500L)
+                        "get repositories" { getRepositories.get.invocations.count() shouldBe 2 }
+                    }
+                }
+            }
+        }
+
         "on refresh" - {
             with(viewModel()) {
-                getRepositories.get.resume(Success(repositories))
-                load()
+                refresh()
             }
 
             "set no error" { state.error.value.shouldBeNull() }
             "set loading" { commonState.isLoading.value.shouldBeTrue() }
-            "get repositories" { getRepositories.get.invocations shouldBe 2 }
+            "get repositories" { getRepositories.get.invocations.count() shouldBe 1 }
             getRepositories.get.resume(Success(repositories))
             "set no loading" { commonState.isLoading.value.shouldBeFalse() }
         }

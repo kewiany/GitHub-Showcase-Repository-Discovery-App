@@ -2,6 +2,7 @@ package xyz.kewiany.showcase.list
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +32,19 @@ class ListFragment : Fragment(R.layout.list_fragment) {
             launch { viewModel.items.collect { updateList(it) } }
             launch { viewModel.error.collect { updateError(it) } }
         }
-        listSwipeRefreshLayout.setOnRefreshListener { viewModel.load() }
+        setUpView()
+    }
+
+    private fun setUpView() {
+        listSearchView.setOnQueryTextListener(object : OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = true
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null && newText.isNotEmpty()) viewModel.updateQuery(newText)
+                return true
+            }
+        })
+        listSwipeRefreshLayout.setOnRefreshListener { viewModel.refresh() }
         listRecyclerView.adapter = adapter
         listRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }

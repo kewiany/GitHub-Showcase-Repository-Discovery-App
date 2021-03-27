@@ -9,7 +9,7 @@ import xyz.kewiany.showcase.entity.Repository
 
 class RepositoryService(private val path: String) : RepositoryApi {
 
-    private val format = Json { ignoreUnknownKeys = true }
+    private val format = Json { ignoreUnknownKeys = true; coerceInputValues = true }
 
     override suspend fun getRepositories(query: String): RepositoriesResponse? {
         return try {
@@ -17,6 +17,7 @@ class RepositoryService(private val path: String) : RepositoryApi {
                 .awaitStringResponse()
             format.decodeFromString(result)
         } catch (e: FuelError) {
+            println("kewin $e")
             throw e.exception
         }
     }

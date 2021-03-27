@@ -3,6 +3,8 @@ package xyz.kewiany.showcase.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import xyz.kewiany.showcase.R
@@ -26,15 +28,42 @@ class ListViewModel(
     val items: Flow<List<Repository>> = state.items
     val error: Flow<ErrorType?> = state.error
 
+    private var cachedQuery: String = ""
+    private var queryChangedJob: Job? = null
+
     init {
         state.commonState.isLoading.value = false
         state.items.value = emptyList()
         state.error.value = null
-        load()
     }
 
-    private suspend fun loadRepositories() {
-        when (val response = getRepositories()) {
+    fun updateQuery(query: String) {
+        if (query == cachedQuery) return
+        queryChangedJob?.cancel()
+        queryChangedJob = viewModelScope.launch(dispatchers.main()) {
+            delay(DEBOUNCE_DELAY_IN_MILLI_SECONDS)
+            cachedQuery = query
+            load(query)
+        }
+    }
+
+    fun refresh() {
+        load(cachedQuery)
+    }
+
+    private fun load(query: String) = viewModelScope.launch(dispatchers.main()) {
+        state.error.value = null
+        state.commonState.isLoading.value = true
+        try {
+            loadRepositories(query)
+        } catch (e: CancellationException) {
+            state.items.value = emptyList()
+        }
+        state.commonState.isLoading.value = false
+    }
+
+    private suspend fun loadRepositories(query: String) {
+        when (val response = getRepositories(query)) {
             is Success -> {
                 state.items.value = response.repositories
             }
@@ -45,19 +74,10 @@ class ListViewModel(
         }
     }
 
-    fun load() = viewModelScope.launch(dispatchers.main()) {
-        state.error.value = null
-        state.commonState.isLoading.value = true
-        try {
-            loadRepositories()
-        } catch (e: CancellationException) {
-            state.items.value = emptyList()
-        }
-        state.commonState.isLoading.value = false
-    }
-
     fun openDetails(id: Long) {
         state.error.value = null
         navigationCommander.navigate(R.id.action_listFragment_to_detailsFragment, REPOSITORY_KEY to id)
     }
 }
+
+private const val DEBOUNCE_DELAY_IN_MILLI_SECONDS = 500L
