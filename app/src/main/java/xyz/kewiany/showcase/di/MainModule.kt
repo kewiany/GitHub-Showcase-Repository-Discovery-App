@@ -3,6 +3,7 @@ package xyz.kewiany.showcase.di
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import xyz.kewiany.showcase.AppState
+import xyz.kewiany.showcase.BuildConfig
 import xyz.kewiany.showcase.api.RepositoryApi
 import xyz.kewiany.showcase.api.RepositoryService
 import xyz.kewiany.showcase.api.UserApi
@@ -21,7 +22,7 @@ val mainModule = module {
     val state = AppState()
     val dispatchers = DefaultDispatcherProvider
     single<NavigationCommander> { NavigationCommanderImpl(::mainNavController) }
-    val path = "https://api.github.com"
+    val path = BuildConfig.API_BASE_URL
     single<RepositoryApi> { RepositoryService(path) }
     single<UserApi> { UserService("$path/users") }
     single<GetRepositories> { GetRepositoriesImpl(get(), dispatchers) }

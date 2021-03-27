@@ -15,12 +15,34 @@ android {
         versionName = "1.0"
     }
     buildTypes {
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+            isDebuggable = true
+        }
+        create("qa") {
+            applicationIdSuffix = ".qa"
+            versionNameSuffix = "-qa"
+            isMinifyEnabled = true
+        }
         getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isMinifyEnabled = true
+        }
+    }
+    flavorDimensions("type")
+    productFlavors {
+        create("apiMocked") {
+            setDimension("type")
+            buildConfigField("String", "API_BASE_URL", "\"https://api.github.com\"")
+        }
+        create("apiProduction") {
+            setDimension("type")
+            buildConfigField("String", "API_BASE_URL", "\"https://api.github.com\"")
+        }
+    }
+    variantFilter {
+        if (buildType.name == "qa" && this.flavors.map { it.name }.contains("apiMocked")) {
+            ignore = true
         }
     }
     kotlinOptions {
