@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.repository_item_view.view.*
 import xyz.kewiany.showcase.R
+import xyz.kewiany.showcase.entity.Repository
 import xyz.kewiany.showcase.list.RepositoryAdapter.RepositoryViewHolder
 
 class RepositoryAdapter(

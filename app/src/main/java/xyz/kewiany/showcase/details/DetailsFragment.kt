@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.kewiany.showcase.R
-import xyz.kewiany.showcase.list.User
+import xyz.kewiany.showcase.entity.User
 import xyz.kewiany.showcase.utils.Constant.REPOSITORY_KEY
 import xyz.kewiany.showcase.utils.ErrorType
 import xyz.kewiany.showcase.utils.setStandardScreenMode

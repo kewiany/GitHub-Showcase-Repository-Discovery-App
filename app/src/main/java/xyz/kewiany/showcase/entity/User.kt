@@ -1,4 +1,4 @@
-package xyz.kewiany.showcase.list
+package xyz.kewiany.showcase.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

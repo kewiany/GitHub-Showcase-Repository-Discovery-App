@@ -1,8 +1,8 @@
 package xyz.kewiany.showcase.utils
 
 import net.bytebuddy.utility.RandomString
-import xyz.kewiany.showcase.list.Repository
-import xyz.kewiany.showcase.list.User
+import xyz.kewiany.showcase.entity.Repository
+import xyz.kewiany.showcase.entity.User
 import kotlin.random.Random
 
 fun createRepository(

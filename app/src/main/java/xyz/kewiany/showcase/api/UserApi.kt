@@ -1,6 +1,6 @@
 package xyz.kewiany.showcase.api
 
-import xyz.kewiany.showcase.list.User
+import xyz.kewiany.showcase.entity.User
 
 interface UserApi {
     suspend fun getFollowersForUser(name: String): List<User>?

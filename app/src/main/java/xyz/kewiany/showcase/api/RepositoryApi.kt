@@ -2,7 +2,7 @@ package xyz.kewiany.showcase.api
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import xyz.kewiany.showcase.list.Repository
+import xyz.kewiany.showcase.entity.Repository
 
 interface RepositoryApi {
     suspend fun getRepositories(query: String): RepositoriesResponse?

@@ -8,8 +8,8 @@ import kotlinx.coroutines.launch
 import xyz.kewiany.showcase.details.GetRepositoryDetailsError.NoInternet
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Error
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Success
-import xyz.kewiany.showcase.list.Repository
-import xyz.kewiany.showcase.list.User
+import xyz.kewiany.showcase.entity.Repository
+import xyz.kewiany.showcase.entity.User
 import xyz.kewiany.showcase.utils.DispatcherProvider
 import xyz.kewiany.showcase.utils.ErrorType
 import xyz.kewiany.showcase.utils.NavigationCommander

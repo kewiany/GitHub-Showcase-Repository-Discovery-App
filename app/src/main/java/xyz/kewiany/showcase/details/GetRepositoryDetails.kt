@@ -6,7 +6,7 @@ import xyz.kewiany.showcase.details.GetRepositoryDetailsError.NoInternet
 import xyz.kewiany.showcase.details.GetRepositoryDetailsError.Unknown
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Error
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Success
-import xyz.kewiany.showcase.list.Repository
+import xyz.kewiany.showcase.entity.Repository
 import xyz.kewiany.showcase.utils.DispatcherProvider
 import java.net.UnknownHostException
 

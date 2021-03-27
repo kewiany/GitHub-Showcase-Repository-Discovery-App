@@ -5,7 +5,7 @@ import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.coroutines.awaitStringResponse
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import xyz.kewiany.showcase.list.Repository
+import xyz.kewiany.showcase.entity.Repository
 
 class RepositoryService(private val path: String) : RepositoryApi {
 

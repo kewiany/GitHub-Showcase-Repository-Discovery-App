@@ -8,7 +8,7 @@ import xyz.kewiany.showcase.details.GetUserError.NoInternet
 import xyz.kewiany.showcase.details.GetUserError.Unknown
 import xyz.kewiany.showcase.details.GetUserResponse.Error
 import xyz.kewiany.showcase.details.GetUserResponse.Success
-import xyz.kewiany.showcase.list.User
+import xyz.kewiany.showcase.entity.User
 import xyz.kewiany.showcase.utils.DispatcherProvider
 import java.net.UnknownHostException
 

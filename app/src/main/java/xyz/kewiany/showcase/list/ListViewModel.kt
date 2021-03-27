@@ -6,6 +6,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import xyz.kewiany.showcase.R
+import xyz.kewiany.showcase.entity.Repository
 import xyz.kewiany.showcase.list.GetRepositoriesError.NoInternet
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Error
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Success

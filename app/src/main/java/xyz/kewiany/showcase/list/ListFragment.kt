@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.kewiany.showcase.R
+import xyz.kewiany.showcase.entity.Repository
 import xyz.kewiany.showcase.utils.ErrorType
 import xyz.kewiany.showcase.utils.setStandardScreenMode
 import xyz.kewiany.showcase.utils.snackBar

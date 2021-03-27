@@ -2,6 +2,7 @@ package xyz.kewiany.showcase.list
 
 import kotlinx.coroutines.withContext
 import xyz.kewiany.showcase.api.RepositoryApi
+import xyz.kewiany.showcase.entity.Repository
 import xyz.kewiany.showcase.list.GetRepositoriesError.NoInternet
 import xyz.kewiany.showcase.list.GetRepositoriesError.Unknown
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Error
