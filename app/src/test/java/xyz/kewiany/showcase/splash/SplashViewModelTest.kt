@@ -1,9 +1,10 @@
-package xyz.kewiany.showcase
+package xyz.kewiany.showcase.splash
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.verify
-import xyz.kewiany.showcase.splash.SplashViewModel
+import xyz.kewiany.showcase.CustomFreeSpec
+import xyz.kewiany.showcase.R
 import xyz.kewiany.showcase.utils.NavigationCommander
 
 internal class SplashViewModelTest : CustomFreeSpec({

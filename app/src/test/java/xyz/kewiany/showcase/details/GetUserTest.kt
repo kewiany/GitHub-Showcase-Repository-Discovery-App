@@ -1,15 +1,15 @@
-package xyz.kewiany.showcase
+package xyz.kewiany.showcase.details
 
 import com.nhaarman.mockitokotlin2.*
 import io.kotest.matchers.shouldBe
+import xyz.kewiany.showcase.CustomFreeSpec
 import xyz.kewiany.showcase.api.UserApi
-import xyz.kewiany.showcase.details.GetUser
 import xyz.kewiany.showcase.details.GetUserError.NoInternet
 import xyz.kewiany.showcase.details.GetUserError.Unknown
-import xyz.kewiany.showcase.details.GetUserImpl
-import xyz.kewiany.showcase.details.GetUserResponse
 import xyz.kewiany.showcase.details.GetUserResponse.Error
 import xyz.kewiany.showcase.details.GetUserResponse.Success
+import xyz.kewiany.showcase.utils.user
+import xyz.kewiany.showcase.utils.users
 import java.net.UnknownHostException
 
 internal class GetUserTest : CustomFreeSpec({

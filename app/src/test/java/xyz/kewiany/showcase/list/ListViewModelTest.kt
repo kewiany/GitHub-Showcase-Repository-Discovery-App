@@ -1,4 +1,4 @@
-package xyz.kewiany.showcase
+package xyz.kewiany.showcase.list
 
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -6,15 +6,14 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
+import xyz.kewiany.showcase.CommonState
+import xyz.kewiany.showcase.CustomFreeSpec
+import xyz.kewiany.showcase.R
 import xyz.kewiany.showcase.list.GetRepositoriesError.NoInternet
 import xyz.kewiany.showcase.list.GetRepositoriesError.Unknown
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Error
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Success
-import xyz.kewiany.showcase.list.ListState
-import xyz.kewiany.showcase.list.ListViewModel
-import xyz.kewiany.showcase.utils.Constant
-import xyz.kewiany.showcase.utils.ErrorType
-import xyz.kewiany.showcase.utils.NavigationCommander
+import xyz.kewiany.showcase.utils.*
 import kotlin.coroutines.resume
 
 internal class ListViewModelTest : CustomFreeSpec({

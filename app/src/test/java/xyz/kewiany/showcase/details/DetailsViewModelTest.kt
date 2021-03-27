@@ -1,17 +1,20 @@
-package xyz.kewiany.showcase
+package xyz.kewiany.showcase.details
 
 import com.nhaarman.mockitokotlin2.*
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
-import xyz.kewiany.showcase.details.*
+import xyz.kewiany.showcase.CommonState
+import xyz.kewiany.showcase.CustomFreeSpec
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Error
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Success
 import xyz.kewiany.showcase.details.GetUserError.NoInternet
 import xyz.kewiany.showcase.details.GetUserError.Unknown
 import xyz.kewiany.showcase.utils.ErrorType
 import xyz.kewiany.showcase.utils.NavigationCommander
+import xyz.kewiany.showcase.utils.repositories
+import xyz.kewiany.showcase.utils.users
 
 internal class DetailsViewModelTest : CustomFreeSpec({
 

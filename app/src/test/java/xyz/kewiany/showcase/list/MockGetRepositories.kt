@@ -1,8 +1,6 @@
-package xyz.kewiany.showcase
+package xyz.kewiany.showcase.list
 
 import pl.mareklangiewicz.smokk.smokk
-import xyz.kewiany.showcase.list.GetRepositories
-import xyz.kewiany.showcase.list.GetRepositoriesResponse
 
 class MockGetRepositories : GetRepositories {
 

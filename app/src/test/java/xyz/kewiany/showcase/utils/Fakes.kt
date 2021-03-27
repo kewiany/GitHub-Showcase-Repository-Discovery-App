@@ -1,4 +1,4 @@
-package xyz.kewiany.showcase
+package xyz.kewiany.showcase.utils
 
 import xyz.kewiany.showcase.api.RepositoriesResponse
 

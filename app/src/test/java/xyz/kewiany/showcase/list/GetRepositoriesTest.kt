@@ -1,15 +1,14 @@
-package xyz.kewiany.showcase
+package xyz.kewiany.showcase.list
 
 import com.nhaarman.mockitokotlin2.*
 import io.kotest.matchers.shouldBe
+import xyz.kewiany.showcase.CustomFreeSpec
 import xyz.kewiany.showcase.api.RepositoryApi
-import xyz.kewiany.showcase.list.GetRepositories
 import xyz.kewiany.showcase.list.GetRepositoriesError.NoInternet
 import xyz.kewiany.showcase.list.GetRepositoriesError.Unknown
-import xyz.kewiany.showcase.list.GetRepositoriesImpl
-import xyz.kewiany.showcase.list.GetRepositoriesResponse
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Error
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Success
+import xyz.kewiany.showcase.utils.repositoriesResponse
 import java.net.UnknownHostException
 
 internal class GetRepositoriesTest : CustomFreeSpec({

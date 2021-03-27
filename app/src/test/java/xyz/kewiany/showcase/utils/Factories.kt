@@ -1,4 +1,4 @@
-package xyz.kewiany.showcase
+package xyz.kewiany.showcase.utils
 
 import net.bytebuddy.utility.RandomString
 import xyz.kewiany.showcase.list.Repository
