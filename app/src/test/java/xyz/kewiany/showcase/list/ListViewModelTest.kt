@@ -4,6 +4,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import net.bytebuddy.utility.RandomString
@@ -51,9 +52,22 @@ internal class ListViewModelTest : CustomFreeSpec({
                 testScope.advanceTimeBy(500L)
 
                 "set loading" { commonState.isLoading.value.shouldBeTrue() }
-                getRepositories.get.resume(Success(repositories))
-                "set state" { state.items.value.shouldBe(repositories) }
-                "set no loading" { commonState.isLoading.value.shouldBeFalse() }
+
+                "with results" - {
+                    getRepositories.get.resume(Success(repositories))
+
+                    "set state" { state.items.value.shouldBe(repositories) }
+                    "set content" { state.content.value.shouldBeNull() }
+                    "set no loading" { commonState.isLoading.value.shouldBeFalse() }
+                }
+
+                "with no results" - {
+                    getRepositories.get.resume(Success(emptyList()))
+
+                    "set state" { state.items.value.shouldBeEmpty() }
+                    "set content" { state.content.value.shouldBe(ContentType.EMPTY) }
+                    "set no loading" { commonState.isLoading.value.shouldBeFalse() }
+                }
             }
 
             "on error response" - {
@@ -91,7 +105,9 @@ internal class ListViewModelTest : CustomFreeSpec({
                 "after 500 milliseconds" - {
                     testScope.advanceTimeBy(500L)
                     "get repositories" { getRepositories.get.invocations.count() shouldBe 1 }
-                    getRepositories.get.resume(Success(emptyList()))
+                    getRepositories.get.resume(Success(repositories))
+
+                    "set content" { state.content.value.shouldBeNull() }
 
                     "on update same query" - {
                         updateQuery(query)
@@ -104,20 +120,42 @@ internal class ListViewModelTest : CustomFreeSpec({
                         testScope.advanceTimeBy(500L)
                         "get repositories" { getRepositories.get.invocations.count() shouldBe 2 }
                     }
+
+                    "on update empty query" - {
+                        updateQuery("")
+                        testScope.advanceTimeBy(500L)
+                        "get repositories" { getRepositories.get.invocations.count() shouldBe 1 }
+                        "set content" { state.content.value.shouldBe(ContentType.START) }
+                        "set state" { state.items.value.shouldBeEmpty() }
+                    }
                 }
             }
         }
 
         "on refresh" - {
-            with(viewModel()) {
-                refresh()
+            val viewModel = viewModel()
+
+            "with empty query" - {
+                viewModel.updateQuery("")
+                testScope.advanceTimeBy(500L)
+                viewModel.refresh()
+
+                "set no error" { state.error.value.shouldBeNull() }
+                "get repositories" { getRepositories.get.invocations.count() shouldBe 0 }
+                "set no loading" { commonState.isLoading.value.shouldBeFalse() }
             }
 
-            "set no error" { state.error.value.shouldBeNull() }
-            "set loading" { commonState.isLoading.value.shouldBeTrue() }
-            "get repositories" { getRepositories.get.invocations.count() shouldBe 1 }
-            getRepositories.get.resume(Success(repositories))
-            "set no loading" { commonState.isLoading.value.shouldBeFalse() }
+            "with no empty query" - {
+                viewModel.updateQuery(query)
+                testScope.advanceTimeBy(500L)
+                viewModel.refresh()
+
+                "set no error" { state.error.value.shouldBeNull() }
+                "set loading" { commonState.isLoading.value.shouldBeTrue() }
+                "get repositories" { getRepositories.get.invocations.count() shouldBe 2 }
+                getRepositories.get.resume(Success(repositories))
+                "set no loading" { commonState.isLoading.value.shouldBeFalse() }
+            }
         }
 
         "on open details" - {

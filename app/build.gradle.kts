@@ -45,6 +45,10 @@ android {
             ignore = true
         }
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
     kotlinOptions {
         freeCompilerArgs = listOf(
             "-Xuse-experimental=kotlin.ExperimentalUnsignedTypes",
@@ -81,3 +85,5 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }

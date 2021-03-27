@@ -13,6 +13,7 @@ import xyz.kewiany.showcase.list.GetRepositoriesError.NoInternet
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Error
 import xyz.kewiany.showcase.list.GetRepositoriesResponse.Success
 import xyz.kewiany.showcase.utils.Constant.REPOSITORY_KEY
+import xyz.kewiany.showcase.utils.ContentType
 import xyz.kewiany.showcase.utils.DispatcherProvider
 import xyz.kewiany.showcase.utils.ErrorType
 import xyz.kewiany.showcase.utils.NavigationCommander
@@ -27,6 +28,7 @@ class ListViewModel(
     val isLoading: Flow<Boolean> = state.commonState.isLoading
     val items: Flow<List<Repository>> = state.items
     val error: Flow<ErrorType?> = state.error
+    val content: Flow<ContentType?> = state.content
 
     private var cachedQuery: String = ""
     private var queryChangedJob: Job? = null
@@ -35,6 +37,7 @@ class ListViewModel(
         state.commonState.isLoading.value = false
         state.items.value = emptyList()
         state.error.value = null
+        state.content.value = ContentType.START
     }
 
     fun updateQuery(query: String) {
@@ -52,10 +55,16 @@ class ListViewModel(
     }
 
     private fun load(query: String) = viewModelScope.launch(dispatchers.main()) {
+        state.content.value = null
         state.error.value = null
         state.commonState.isLoading.value = true
         try {
-            loadRepositories(query)
+            if (query.isNotEmpty()) {
+                loadRepositories(query)
+            } else {
+                state.content.value = ContentType.START
+                state.items.value = emptyList()
+            }
         } catch (e: CancellationException) {
             state.items.value = emptyList()
         }
@@ -65,6 +74,8 @@ class ListViewModel(
     private suspend fun loadRepositories(query: String) {
         when (val response = getRepositories(query)) {
             is Success -> {
+                val items = response.repositories
+                state.content.value = if (items.isEmpty()) ContentType.EMPTY else null
                 state.items.value = response.repositories
             }
             is Error -> {

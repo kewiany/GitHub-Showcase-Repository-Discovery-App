@@ -3,6 +3,7 @@ package xyz.kewiany.showcase.list
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,10 +13,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.kewiany.showcase.R
 import xyz.kewiany.showcase.entity.Repository
-import xyz.kewiany.showcase.utils.ErrorType
-import xyz.kewiany.showcase.utils.setStandardScreenMode
-import xyz.kewiany.showcase.utils.snackBar
-import xyz.kewiany.showcase.utils.translate
+import xyz.kewiany.showcase.utils.*
 
 class ListFragment : Fragment(R.layout.list_fragment) {
 
@@ -31,6 +29,7 @@ class ListFragment : Fragment(R.layout.list_fragment) {
             launch { viewModel.isLoading.collect { updateIsLoading(it) } }
             launch { viewModel.items.collect { updateList(it) } }
             launch { viewModel.error.collect { updateError(it) } }
+            launch { viewModel.content.collect { updateContent(it) } }
         }
         setUpView()
     }
@@ -40,7 +39,7 @@ class ListFragment : Fragment(R.layout.list_fragment) {
             override fun onQueryTextSubmit(query: String?): Boolean = true
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null && newText.isNotEmpty()) viewModel.updateQuery(newText)
+                if (newText != null) viewModel.updateQuery(newText)
                 return true
             }
         })
@@ -61,5 +60,10 @@ class ListFragment : Fragment(R.layout.list_fragment) {
     private fun updateError(errorType: ErrorType?) {
         errorType ?: return
         listCoordinatorLayout.snackBar(errorType.translate(requireContext()))
+    }
+
+    private fun updateContent(content: ContentType?) {
+        listContentTextView.isVisible = content != null
+        listContentTextView.text = content?.translate(requireContext())
     }
 }
