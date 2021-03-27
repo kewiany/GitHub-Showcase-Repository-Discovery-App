@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 data class User(
     @SerialName("login") val name: String,
     @SerialName("avatar_url") val avatar: String,
-    val followers: Int = 0
+    val followers: Int? = null
 )
