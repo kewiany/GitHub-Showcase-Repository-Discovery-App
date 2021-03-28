@@ -1,14 +1,17 @@
 package xyz.kewiany.showcase.list
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.repository_item_view.view.*
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZonedDateTime
 import xyz.kewiany.showcase.R
 import xyz.kewiany.showcase.entity.Repository
-import xyz.kewiany.showcase.entity.toFormattedDate
 import xyz.kewiany.showcase.list.RepositoryAdapter.RepositoryViewHolder
+import xyz.kewiany.showcase.utils.*
 
 class RepositoryAdapter(
     private val onClick: (Long) -> Unit,
@@ -36,4 +39,24 @@ class RepositoryAdapter(
             setOnClickListener { onClick(repository.id) }
         }
     }
+}
+
+private fun isSameHour(now: ZonedDateTime, dateToCheck: ZonedDateTime) = now.hour == dateToCheck.hour
+private fun isToday(now: LocalDate, dateToCheck: LocalDate): Boolean = now.isEqual(dateToCheck)
+
+fun Repository.toFormattedDate(context: Context): String? {
+    val nowZonedDateTime = now.atZone(zoneID)
+    val updatedAtZonedDateTime = updatedAtInstant.atZone(zoneID)
+    val updatedAtLocalDateTime = updatedAtZonedDateTime.toLocalDateTime()
+
+    val isToday = isToday(nowZonedDateTime.toLocalDate(), updatedAtZonedDateTime.toLocalDate())
+
+    val (resId, formatter) = if (isToday && isSameHour(nowZonedDateTime, updatedAtZonedDateTime)) {
+        R.string.updated_minutes to todayMinutesFormatter
+    } else if (isToday) {
+        R.string.updated_hours to todayHoursFormatter
+    } else {
+        R.string.updated_on to dateFormatter
+    }
+    return context.getString(resId, updatedAtLocalDateTime.format(formatter).format(formatter))
 }
