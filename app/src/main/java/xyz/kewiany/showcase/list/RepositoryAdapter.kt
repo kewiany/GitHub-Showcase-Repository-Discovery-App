@@ -31,7 +31,7 @@ class RepositoryAdapter(
             repositoryDescriptionTextView.text = repository.description
             repositoryStarsTextView.text = repository.stars.toString()
             repositoryWatchersTextView.text = repository.watchers.toString()
-            repositoryUpdatedAt.text = String.format(context.getString(R.string.updated_on), repository.toFormattedDate())
+            repositoryUpdatedAt.text = repository.toFormattedDate(context)
             repositoryLanguageTextView.text = repository.language
             setOnClickListener { onClick(repository.id) }
         }
