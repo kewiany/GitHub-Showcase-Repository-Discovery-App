@@ -14,11 +14,8 @@
 
         <TextView
             android:id="@+id/repositoryNameTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            style="@style/TextRepositoryItem"
             android:layout_marginTop="12dp"
-            android:lines="1"
-            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintEnd_toEndOf="@id/repositoryEndGuideline"
             app:layout_constraintStart_toStartOf="@id/repositoryStartGuideline"
@@ -27,11 +24,8 @@
 
         <TextView
             android:id="@+id/repositoryDescriptionTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            style="@style/TextRepositoryItem"
             android:layout_marginTop="2dp"
-            android:lines="1"
-            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:layout_constraintEnd_toEndOf="@id/repositoryEndGuideline"
             app:layout_constraintStart_toStartOf="@id/repositoryStartGuideline"
@@ -40,19 +34,14 @@
 
         <ImageView
             android:id="@+id/repositoryStarsImageView"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginTop="6dp"
+            style="@style/IconRepositoryItem"
             android:src="@drawable/ic_star"
             app:layout_constraintStart_toStartOf="@id/repositoryStartGuideline"
             app:layout_constraintTop_toBottomOf="@id/repositoryDescriptionTextView" />
 
         <TextView
             android:id="@+id/repositoryStarsTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/TextIconRepositoryItem"
             app:layout_constraintBottom_toBottomOf="@id/repositoryStarsImageView"
             app:layout_constraintStart_toEndOf="@id/repositoryStarsImageView"
             app:layout_constraintTop_toTopOf="@id/repositoryStarsImageView"
@@ -60,8 +49,7 @@
 
         <ImageView
             android:id="@+id/repositoryWatchersImageView"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            style="@style/IconRepositoryItem"
             android:src="@drawable/ic_eye"
             app:layout_constraintBottom_toBottomOf="@id/repositoryStarsImageView"
             app:layout_constraintStart_toStartOf="@id/repositoryWatchersGuideline"
@@ -69,10 +57,7 @@
 
         <TextView
             android:id="@+id/repositoryWatchersTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            style="@style/TextIconRepositoryItem"
             app:layout_constraintBottom_toBottomOf="@id/repositoryWatchersImageView"
             app:layout_constraintStart_toEndOf="@id/repositoryWatchersImageView"
             app:layout_constraintTop_toTopOf="@id/repositoryWatchersImageView"
