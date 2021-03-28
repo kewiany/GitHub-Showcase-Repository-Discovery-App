@@ -35,6 +35,7 @@
         <ImageView
             android:id="@+id/repositoryStarsImageView"
             style="@style/IconRepositoryItem"
+            android:layout_marginTop="6dp"
             android:src="@drawable/ic_star"
             app:layout_constraintStart_toStartOf="@id/repositoryStartGuideline"
             app:layout_constraintTop_toBottomOf="@id/repositoryDescriptionTextView" />

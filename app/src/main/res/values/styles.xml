@@ -11,7 +11,6 @@
     <style name="IconRepositoryItem">
         <item name="android:layout_width">16dp</item>
         <item name="android:layout_height">16dp</item>
-        <item name="android:layout_marginTop">6dp</item>
     </style>
 
     <style name="TextIconRepositoryItem">
