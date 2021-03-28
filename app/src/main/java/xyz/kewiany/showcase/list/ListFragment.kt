@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.list_fragment.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.kewiany.showcase.R
 import xyz.kewiany.showcase.entity.Repository
@@ -20,7 +21,7 @@ class ListFragment : Fragment(R.layout.list_fragment) {
     private val viewModel by viewModel<ListViewModel>()
     private val items: MutableList<Repository> = mutableListOf()
     private val onClick: (Long) -> Unit by lazy { viewModel::openDetails }
-    private val adapter by lazy { RepositoryAdapter(onClick, items) }
+    private val adapter by lazy { RepositoryAdapter(onClick, items, get()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

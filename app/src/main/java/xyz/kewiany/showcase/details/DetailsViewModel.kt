@@ -9,6 +9,7 @@ import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Error
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Success
 import xyz.kewiany.showcase.entity.Repository
 import xyz.kewiany.showcase.entity.User
+import xyz.kewiany.showcase.utils.DateTimeFormatter
 import xyz.kewiany.showcase.utils.DispatcherProvider
 import xyz.kewiany.showcase.utils.ErrorType
 import xyz.kewiany.showcase.utils.NavigationCommander
@@ -18,6 +19,7 @@ class DetailsViewModel(
     private val getRepositoryDetails: GetRepositoryDetails,
     private val getUser: GetUser,
     private val navigationCommander: NavigationCommander,
+    private val dateTimeFormatter: DateTimeFormatter,
     private val dispatchers: DispatcherProvider
 ) : ViewModel() {
 
@@ -45,14 +47,35 @@ class DetailsViewModel(
         state.error.value = null
     }
 
+    fun back() {
+        navigationCommander.popBackStack()
+    }
+
+    fun load(id: Long) = viewModelScope.launch(dispatchers.main()) {
+        state.error.value = null
+        state.commonState.isLoading.value = true
+        try {
+            loadRepositoryDetails(id)
+            loadUser(requireNotNull(_repository?.user?.name))
+            updateState()
+        } catch (e: Exception) {
+            when (e) {
+                is LoadDetailsException -> {
+                    state.error.value = e.errorType
+                }
+            }
+        }
+        state.commonState.isLoading.value = false
+    }
+
     private fun updateState() = with(state) {
         name.value = _repository?.name ?: ""
         description.value = _repository?.description ?: ""
         stars.value = _repository?.stars?.toString() ?: ""
         watchers.value = _repository?.watchers?.toString() ?: ""
         forks.value = _repository?.forks?.toString() ?: ""
-        updatedAt.value = _repository?.updatedAt ?: ""
-        createdAt.value = _repository?.createdAt ?: ""
+        updatedAt.value = format(_repository?.updatedAt)
+        createdAt.value = format(_repository?.createdAt)
         language.value = _repository?.language ?: ""
         owner.value = _owner?.name ?: ""
         avatar.value = _owner?.avatar ?: ""
@@ -84,26 +107,7 @@ class DetailsViewModel(
         }
     }
 
-    fun load(id: Long) = viewModelScope.launch(dispatchers.main()) {
-        state.error.value = null
-        state.commonState.isLoading.value = true
-        try {
-            loadRepositoryDetails(id)
-            loadUser(requireNotNull(_repository?.user?.name))
-            updateState()
-        } catch (e: Exception) {
-            when (e) {
-                is LoadDetailsException -> {
-                    state.error.value = e.errorType
-                }
-            }
-        }
-        state.commonState.isLoading.value = false
-    }
-
-    fun back() {
-        navigationCommander.popBackStack()
-    }
+    private fun format(date: String?) = if (date != null && date.isNotEmpty()) dateTimeFormatter.format(date) else ""
 }
 
 class LoadDetailsException(val errorType: ErrorType) : Exception()

@@ -5,16 +5,14 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
+import net.bytebuddy.utility.RandomString
 import xyz.kewiany.showcase.CommonState
 import xyz.kewiany.showcase.CustomFreeSpec
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Error
 import xyz.kewiany.showcase.details.GetRepositoryDetailsResponse.Success
 import xyz.kewiany.showcase.details.GetUserError.NoInternet
 import xyz.kewiany.showcase.details.GetUserError.Unknown
-import xyz.kewiany.showcase.utils.ErrorType
-import xyz.kewiany.showcase.utils.NavigationCommander
-import xyz.kewiany.showcase.utils.repositories
-import xyz.kewiany.showcase.utils.users
+import xyz.kewiany.showcase.utils.*
 
 internal class DetailsViewModelTest : CustomFreeSpec({
 
@@ -24,6 +22,10 @@ internal class DetailsViewModelTest : CustomFreeSpec({
         val getRepositoryDetails = mock<GetRepositoryDetails>()
         val getUser = mock<GetUser>()
         val navigationCommander = mock<NavigationCommander>()
+        val dateTime = RandomString.make()
+        val dateTimeFormatter = mock<DateTimeFormatter> {
+            on { format(any()) } doReturn dateTime
+        }
         val id = 0L
         val repository = repositories.first()
         val user = repository.user
@@ -32,6 +34,7 @@ internal class DetailsViewModelTest : CustomFreeSpec({
             getRepositoryDetails,
             getUser,
             navigationCommander,
+            dateTimeFormatter,
             testDispatcherProvider
         )
 
@@ -113,8 +116,8 @@ internal class DetailsViewModelTest : CustomFreeSpec({
             "set stars" { state.stars.value.shouldBe(repository.stars.toString()) }
             "set watchers" { state.watchers.value.shouldBe(repository.watchers.toString()) }
             "set forks" { state.forks.value.shouldBe(repository.forks.toString()) }
-            "set updatedAt" { state.updatedAt.value.shouldBe(repository.updatedAt) }
-            "set createdAt" { state.createdAt.value.shouldBe(repository.createdAt) }
+            "set updatedAt" { state.updatedAt.value.shouldBe(dateTime) }
+            "set createdAt" { state.createdAt.value.shouldBe(dateTime) }
             "set language" { state.language.value.shouldBe(repository.language) }
             "set owner" { state.owner.value.shouldBe(user.name) }
             "set avatar" { state.avatar.value.shouldBe(user.avatar) }

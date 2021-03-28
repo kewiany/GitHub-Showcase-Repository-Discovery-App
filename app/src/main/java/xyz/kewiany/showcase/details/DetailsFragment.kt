@@ -12,8 +12,6 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.kewiany.showcase.R
 import xyz.kewiany.showcase.entity.User
-import xyz.kewiany.showcase.list.toFormattedCreatedDate
-import xyz.kewiany.showcase.list.toFormattedUpdatedDate
 import xyz.kewiany.showcase.utils.Constant.REPOSITORY_KEY
 import xyz.kewiany.showcase.utils.ErrorType
 import xyz.kewiany.showcase.utils.setStandardScreenMode
@@ -76,11 +74,11 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
     }
 
     private fun updateUpdatedAt(updatedAt: String) {
-        detailsRepositoryUpdatedAt.text = updatedAt.toFormattedUpdatedDate(requireContext())
+        detailsRepositoryUpdatedAt.text = getString(R.string.updated, updatedAt)
     }
 
     private fun updateCreatedAt(createdAt: String) {
-        detailsRepositoryCreatedAt.text = createdAt.toFormattedCreatedDate(requireContext())
+        detailsRepositoryCreatedAt.text = getString(R.string.created, createdAt)
     }
 
     private fun updateLanguage(language: String) {
