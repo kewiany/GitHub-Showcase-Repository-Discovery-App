@@ -34,10 +34,9 @@ class ListViewModel(
     private var queryChangedJob: Job? = null
 
     init {
-        state.commonState.isLoading.value = false
-        state.items.value = emptyList()
         state.error.value = null
-        state.content.value = ContentType.START
+        setLoading(false)
+        updateItems(emptyList())
     }
 
     fun updateQuery(query: String) {
@@ -57,32 +56,42 @@ class ListViewModel(
     private fun load(query: String) = viewModelScope.launch(dispatchers.main()) {
         state.content.value = null
         state.error.value = null
-        state.commonState.isLoading.value = true
+        setLoading(true)
         try {
             if (query.isNotEmpty()) {
                 loadRepositories(query)
             } else {
-                state.content.value = ContentType.START
-                state.items.value = emptyList()
+                updateItems(emptyList())
             }
         } catch (e: CancellationException) {
             state.items.value = emptyList()
         }
-        state.commonState.isLoading.value = false
+        setLoading(false)
     }
 
     private suspend fun loadRepositories(query: String) {
         when (val response = getRepositories(query)) {
             is Success -> {
-                val items = response.repositories
-                state.content.value = if (items.isEmpty()) ContentType.EMPTY else null
-                state.items.value = response.repositories
+                updateItems(response.repositories)
             }
             is Error -> {
                 val error = if (response.error is NoInternet) ErrorType.NO_INTERNET else ErrorType.UNKNOWN
                 state.error.value = error
             }
         }
+    }
+
+    private fun updateItems(items: List<Repository>) {
+        state.content.value = when {
+            cachedQuery.isEmpty() -> ContentType.START
+            items.isEmpty() -> ContentType.EMPTY
+            else -> null
+        }
+        state.items.value = items
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        state.commonState.isLoading.value = isLoading
     }
 
     fun openDetails(id: Long) {
