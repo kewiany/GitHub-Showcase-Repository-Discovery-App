@@ -73,6 +73,7 @@ dependencies {
     implementation(Library.Fuel.core)
     implementation(Library.Fuel.coroutines)
     implementation(Library.Fuel.kotlinXSerialization)
+    implementation(Library.threetenbp)
     testImplementation(TestLibrary.Kotest.framework)
     testImplementation(TestLibrary.Kotest.assertions)
     testImplementation(TestLibrary.Kotest.property)

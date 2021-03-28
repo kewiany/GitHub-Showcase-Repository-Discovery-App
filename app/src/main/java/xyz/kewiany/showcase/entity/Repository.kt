@@ -2,6 +2,10 @@ package xyz.kewiany.showcase.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
+import xyz.kewiany.showcase.utils.dateFormatter
+
 
 @Serializable
 data class Repository(
@@ -14,3 +18,9 @@ data class Repository(
     @SerialName("updated_at") val updatedAt: String,
     @SerialName("owner") val user: User
 )
+
+fun Repository.toFormattedDate(): String? {
+    val instant = Instant.parse(updatedAt)
+    val localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime().format(dateFormatter)
+    return localDateTime.format(dateFormatter)
+}

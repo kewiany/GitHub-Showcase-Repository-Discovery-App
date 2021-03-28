@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.repository_item_view.view.*
 import xyz.kewiany.showcase.R
 import xyz.kewiany.showcase.entity.Repository
+import xyz.kewiany.showcase.entity.toFormattedDate
 import xyz.kewiany.showcase.list.RepositoryAdapter.RepositoryViewHolder
 
 class RepositoryAdapter(
@@ -30,7 +31,7 @@ class RepositoryAdapter(
             repositoryDescriptionTextView.text = repository.description
             repositoryStarsTextView.text = repository.stars.toString()
             repositoryWatchersTextView.text = repository.watchers.toString()
-            repositoryUpdatedAt.text = repository.updatedAt
+            repositoryUpdatedAt.text = String.format(context.getString(R.string.updated_on), repository.toFormattedDate())
             repositoryLanguageTextView.text = repository.language
             setOnClickListener { onClick(repository.id) }
         }
