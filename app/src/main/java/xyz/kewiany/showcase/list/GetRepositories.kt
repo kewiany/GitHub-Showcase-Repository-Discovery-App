@@ -22,6 +22,8 @@ class GetRepositoriesImpl(
     override suspend fun invoke(query: String): GetRepositoriesResponse = withContext(dispatchers.io()) {
         try {
             val response = repositoryApi.getRepositories(query)
+            println("kewin $response")
+
             val data = response?.repositories
             Success(requireNotNull(data))
         } catch (e: Exception) {
@@ -29,6 +31,8 @@ class GetRepositoriesImpl(
                 is UnknownHostException -> NoInternet
                 else -> Unknown
             }
+            println("kewin $e")
+
             Error(error)
         }
     }

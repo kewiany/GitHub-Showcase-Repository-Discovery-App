@@ -9,8 +9,14 @@ fun createRepository(
     id: Long = Random.nextLong(),
     name: String = RandomString.make(),
     description: String = RandomString.make(),
+    language: String = RandomString.make(),
+    stars: Int = Random.nextInt(),
+    watchers: Int = Random.nextInt(),
+    updatedAt: String = RandomString.make(),
     user: User = createUser()
-) = Repository(id, name, description, user)
+) = Repository(
+    id, name, description, language, stars, watchers, updatedAt, user
+)
 
 fun createUser(
     name: String = RandomString.make(),

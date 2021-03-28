@@ -28,6 +28,10 @@ class RepositoryAdapter(
         fun bind(repository: Repository) = with(itemView) {
             repositoryNameTextView.text = repository.name
             repositoryDescriptionTextView.text = repository.description
+            repositoryStarsTextView.text = repository.stars.toString()
+            repositoryWatchersTextView.text = repository.watchers.toString()
+            repositoryUpdatedAt.text = repository.updatedAt
+            repositoryLanguageTextView.text = repository.language
             setOnClickListener { onClick(repository.id) }
         }
     }

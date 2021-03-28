@@ -1,17 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/repositoryNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/repositoryDescriptionTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/repositoryNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:lines="1"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintEnd_toEndOf="@id/repositoryEndGuideline"
+            app:layout_constraintStart_toStartOf="@id/repositoryStartGuideline"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="showcase" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/repositoryDescriptionTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:lines="1"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintEnd_toEndOf="@id/repositoryEndGuideline"
+            app:layout_constraintStart_toStartOf="@id/repositoryStartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/repositoryNameTextView"
+            tools:text="sample app - mvvm" />
+
+        <ImageView
+            android:id="@+id/repositoryStarsImageView"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/ic_star"
+            app:layout_constraintStart_toStartOf="@id/repositoryStartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/repositoryDescriptionTextView" />
+
+        <TextView
+            android:id="@+id/repositoryStarsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:layout_constraintBottom_toBottomOf="@id/repositoryStarsImageView"
+            app:layout_constraintStart_toEndOf="@id/repositoryStarsImageView"
+            app:layout_constraintTop_toTopOf="@id/repositoryStarsImageView"
+            tools:text="123" />
+
+        <ImageView
+            android:id="@+id/repositoryWatchersImageView"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_eye"
+            app:layout_constraintBottom_toBottomOf="@id/repositoryStarsImageView"
+            app:layout_constraintStart_toStartOf="@id/repositoryWatchersGuideline"
+            app:layout_constraintTop_toTopOf="@id/repositoryStarsImageView" />
+
+        <TextView
+            android:id="@+id/repositoryWatchersTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:layout_constraintBottom_toBottomOf="@id/repositoryWatchersImageView"
+            app:layout_constraintStart_toEndOf="@id/repositoryWatchersImageView"
+            app:layout_constraintTop_toTopOf="@id/repositoryWatchersImageView"
+            tools:text="33" />
+
+        <TextView
+            android:id="@+id/repositoryLanguageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="12dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/repositoryStartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/repositoryStarsImageView"
+            tools:text="Kotlin" />
+
+        <TextView
+            android:id="@+id/repositoryUpdatedAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:layout_constraintBaseline_toBaselineOf="@id/repositoryLanguageTextView"
+            app:layout_constraintEnd_toEndOf="@id/repositoryEndGuideline"
+            tools:text="Updated on Mar 28, 2021" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/repositoryStartGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/repositoryEndGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/repositoryWatchersGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="100dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
