@@ -19,10 +19,11 @@ class SplashFragment : Fragment(R.layout.splash_fragment) {
         activity?.window?.setFullScreenMode()
         getViewModel<SplashViewModel>().viewModelScope.launch {
             while (true) {
-                launcherProgressView?.rotation = Random.nextInt(0, 360).toFloat()
+                splashProgressView?.rotation = Random.nextInt(0, 360).toFloat()
                 delay(LAUNCHER_PROGRESS_VIEW_ROTATION_IN_MILLI_SECONDS)
             }
         }
+        splashTextView.text = getString(R.string.app_name)
     }
 
     companion object {
