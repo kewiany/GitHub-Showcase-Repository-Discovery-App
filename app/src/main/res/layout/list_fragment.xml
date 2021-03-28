@@ -14,8 +14,10 @@
             android:id="@+id/listSearchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:defaultQueryHint="@string/search_repositories"
+            app:iconifiedByDefault="false"
             app:layout_constraintTop_toTopOf="parent"
-            app:queryHint="Search repository" />
+            app:searchIcon="@null" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/listSwipeRefreshLayout"
