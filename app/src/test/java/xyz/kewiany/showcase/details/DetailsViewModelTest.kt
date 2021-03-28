@@ -40,7 +40,14 @@ internal class DetailsViewModelTest : CustomFreeSpec({
             "set loading" { commonState.isLoading.value.shouldBeFalse() }
             "set name" { state.name.value.shouldBe("") }
             "set description" { state.description.value.shouldBe("") }
-            "set userName" { state.userName.value.shouldBe("") }
+            "set stars" { state.stars.value.shouldBe("") }
+            "set watchers" { state.watchers.value.shouldBe("") }
+            "set forks" { state.forks.value.shouldBe("") }
+            "set updatedAt" { state.updatedAt.value.shouldBe("") }
+            "set createdAt" { state.createdAt.value.shouldBe("") }
+            "set language" { state.language.value.shouldBe("") }
+            "set owner" { state.owner.value.shouldBe("") }
+            "set avatar" { state.avatar.value.shouldBe("") }
             "set followers" { state.followers.value.shouldBeEmpty() }
             "set error" { state.error.value.shouldBeNull() }
         }
@@ -53,8 +60,7 @@ internal class DetailsViewModelTest : CustomFreeSpec({
                     whenever(getRepositoryDetails(id)) doReturn Success(repository)
                     viewModel.load(id)
 
-                    "set name" { state.name.value.shouldBe(repository.name) }
-                    "set description" { state.description.value.shouldBe(repository.description) }
+                    "get repository details" { verify(getRepositoryDetails).invoke(id) }
                     "get user" { verify(getUser).invoke(user.name) }
                 }
 
@@ -102,7 +108,16 @@ internal class DetailsViewModelTest : CustomFreeSpec({
             whenever(getUser(user.name)) doReturn GetUserResponse.Success(user, users)
             viewModel.load(id)
             "set no error" { state.error.value.shouldBeNull() }
-            "set username" { state.userName.value.shouldBe(user.name) }
+            "set name" { state.name.value.shouldBe(repository.name) }
+            "set description" { state.description.value.shouldBe(repository.description) }
+            "set stars" { state.stars.value.shouldBe(repository.stars.toString()) }
+            "set watchers" { state.watchers.value.shouldBe(repository.watchers.toString()) }
+            "set forks" { state.forks.value.shouldBe(repository.forks.toString()) }
+            "set updatedAt" { state.updatedAt.value.shouldBe(repository.updatedAt) }
+            "set createdAt" { state.createdAt.value.shouldBe(repository.createdAt) }
+            "set language" { state.language.value.shouldBe(repository.language) }
+            "set owner" { state.owner.value.shouldBe(user.name) }
+            "set avatar" { state.avatar.value.shouldBe(user.avatar) }
             "set followers" { state.followers.value.shouldBe(users) }
         }
 

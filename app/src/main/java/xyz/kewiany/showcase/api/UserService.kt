@@ -17,6 +17,7 @@ class UserService(private val path: String) : UserApi {
                 .awaitStringResponse()
             format.decodeFromString(result)
         } catch (e: FuelError) {
+            println(e)
             throw e.exception
         }
     }

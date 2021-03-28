@@ -8,4 +8,11 @@
     <string name="updated_minutes">Updated %s minutes ago</string>
     <string name="updated_hours">Updated %s hours ago</string>
     <string name="updated_on">Updated on %s</string>
+    <string name="created_minutes">Created %s minutes ago</string>
+    <string name="created_hours">Created %s hours ago</string>
+    <string name="created_on">Created on %s</string>
+    <string name="information">Information</string>
+    <string name="language">Language</string>
+    <string name="owner">Owner</string>
+    <string name="followers_count">Followers %s</string>
 </resources>

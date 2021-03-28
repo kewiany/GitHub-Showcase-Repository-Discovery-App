@@ -2,7 +2,6 @@ package xyz.kewiany.showcase.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import xyz.kewiany.showcase.details.GetRepositoryDetailsError.NoInternet
@@ -22,31 +21,48 @@ class DetailsViewModel(
     private val dispatchers: DispatcherProvider
 ) : ViewModel() {
 
-    var repository: Repository? = null
+    private var _repository: Repository? = null
+    private var _owner: User? = null
+    private var _followers: List<User>? = null
 
     val isLoading: Flow<Boolean> = state.commonState.isLoading
     val name: Flow<String> = state.name
     val description: Flow<String> = state.description
-    val userName: Flow<String> = state.userName
+    val stars: Flow<String> = state.stars
+    val watchers: Flow<String> = state.watchers
+    val forks: Flow<String> = state.forks
+    val updatedAt: Flow<String> = state.updatedAt
+    val createdAt: Flow<String> = state.createdAt
+    val language: Flow<String> = state.language
+    val owner: Flow<String> = state.owner
+    val avatar: Flow<String> = state.avatar
     val followers: Flow<List<User>> = state.followers
     val error: Flow<ErrorType?> = state.error
 
     init {
         state.commonState.isLoading.value = false
-        state.name.value = ""
-        state.description.value = ""
-        state.userName.value = ""
-        state.followers.value = emptyList()
+        updateState()
         state.error.value = null
+    }
+
+    private fun updateState() = with(state) {
+        name.value = _repository?.name ?: ""
+        description.value = _repository?.description ?: ""
+        stars.value = _repository?.stars?.toString() ?: ""
+        watchers.value = _repository?.watchers?.toString() ?: ""
+        forks.value = _repository?.forks?.toString() ?: ""
+        updatedAt.value = _repository?.updatedAt ?: ""
+        createdAt.value = _repository?.createdAt ?: ""
+        language.value = _repository?.language ?: ""
+        owner.value = _owner?.name ?: ""
+        avatar.value = _owner?.avatar ?: ""
+        followers.value = _followers ?: emptyList()
     }
 
     private suspend fun loadRepositoryDetails(id: Long) {
         when (val response = getRepositoryDetails(id)) {
             is Success -> {
-                val item = response.repository
-                repository = item
-                state.name.value = item.name
-                state.description.value = item.description
+                _repository = response.repository
             }
             is Error -> {
                 val error = if (response.error is NoInternet) ErrorType.NO_INTERNET else ErrorType.UNKNOWN
@@ -58,8 +74,8 @@ class DetailsViewModel(
     private suspend fun loadUser(name: String) {
         when (val response = getUser(name)) {
             is GetUserResponse.Success -> {
-                state.userName.value = response.user.name
-                state.followers.value = response.followers
+                _owner = response.user
+                _followers = response.followers
             }
             is GetUserResponse.Error -> {
                 val error = if (response.error is GetUserError.NoInternet) ErrorType.NO_INTERNET else ErrorType.UNKNOWN
@@ -73,13 +89,10 @@ class DetailsViewModel(
         state.commonState.isLoading.value = true
         try {
             loadRepositoryDetails(id)
-            loadUser(requireNotNull(repository?.user?.name))
+            loadUser(requireNotNull(_repository?.user?.name))
+            updateState()
         } catch (e: Exception) {
             when (e) {
-                is CancellationException -> {
-                    state.name.value = ""
-                    state.description.value = ""
-                }
                 is LoadDetailsException -> {
                     state.error.value = e.errorType
                 }

@@ -17,7 +17,6 @@ class RepositoryService(private val path: String) : RepositoryApi {
                 .awaitStringResponse()
             format.decodeFromString(result)
         } catch (e: FuelError) {
-            println("kewin $e")
             throw e.exception
         }
     }

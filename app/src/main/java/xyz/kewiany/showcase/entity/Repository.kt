@@ -2,7 +2,6 @@ package xyz.kewiany.showcase.entity
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.threeten.bp.Instant
 
 
 @Serializable
@@ -13,8 +12,8 @@ data class Repository(
     val language: String = "",
     @SerialName("stargazers_count") val stars: Int,
     @SerialName("watchers_count") val watchers: Int,
+    @SerialName("forks_count") val forks: Int,
     @SerialName("updated_at") val updatedAt: String,
+    @SerialName("created_at") val createdAt: String,
     @SerialName("owner") val user: User
-) {
-    val updatedAtInstant: Instant by lazy { Instant.parse(updatedAt) }
-}
+)

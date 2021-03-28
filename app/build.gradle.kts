@@ -2,6 +2,7 @@ plugins {
     id(BuildPlugin.androidApplication)
     id(BuildPlugin.kotlinAndroid)
     id(BuildPlugin.kotlinAndroidExtensions)
+    id("kotlin-kapt")
     id("kotlinx-serialization") version "1.3.60"
 }
 
@@ -58,6 +59,7 @@ android {
 }
 
 dependencies {
+    kapt(Library.glideCompiler)
     implementation(Library.kotlinStdLib)
     implementation(Library.AndroidX.core)
     implementation(Library.AndroidX.appCompat)
@@ -74,6 +76,7 @@ dependencies {
     implementation(Library.Fuel.coroutines)
     implementation(Library.Fuel.kotlinXSerialization)
     implementation(Library.threetenbp)
+    implementation(Library.glide)
     testImplementation(TestLibrary.Kotest.framework)
     testImplementation(TestLibrary.Kotest.assertions)
     testImplementation(TestLibrary.Kotest.property)

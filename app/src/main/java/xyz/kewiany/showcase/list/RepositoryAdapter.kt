@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.repository_item_view.view.*
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZonedDateTime
 import xyz.kewiany.showcase.R
@@ -34,7 +35,7 @@ class RepositoryAdapter(
             repositoryDescriptionTextView.text = repository.description
             repositoryStarsTextView.text = repository.stars.toString()
             repositoryWatchersTextView.text = repository.watchers.toString()
-            repositoryUpdatedAt.text = repository.toFormattedDate(context)
+            repositoryUpdatedAt.text = repository.updatedAt.toFormattedUpdatedDate(context)
             repositoryLanguageTextView.text = repository.language
             setOnClickListener { onClick(repository.id) }
         }
@@ -42,21 +43,42 @@ class RepositoryAdapter(
 }
 
 private fun isSameHour(now: ZonedDateTime, dateToCheck: ZonedDateTime) = now.hour == dateToCheck.hour
-private fun isToday(now: LocalDate, dateToCheck: LocalDate): Boolean = now.isEqual(dateToCheck)
+fun isToday(now: LocalDate, dateToCheck: LocalDate): Boolean = now.isEqual(dateToCheck)
 
-fun Repository.toFormattedDate(context: Context): String? {
+//TODO remove duplications
+
+fun String.toFormattedUpdatedDate(context: Context): String? {
+    if (isEmpty()) return ""
     val nowZonedDateTime = now.atZone(zoneID)
-    val updatedAtZonedDateTime = updatedAtInstant.atZone(zoneID)
-    val updatedAtLocalDateTime = updatedAtZonedDateTime.toLocalDateTime()
+    val zonedDateTime = Instant.parse(this).atZone(zoneID)
+    val localDateTime = zonedDateTime.toLocalDateTime()
 
-    val isToday = isToday(nowZonedDateTime.toLocalDate(), updatedAtZonedDateTime.toLocalDate())
+    val isToday = isToday(nowZonedDateTime.toLocalDate(), zonedDateTime.toLocalDate())
 
-    val (resId, formatter) = if (isToday && isSameHour(nowZonedDateTime, updatedAtZonedDateTime)) {
+    val (resId, formatter) = if (isToday && isSameHour(nowZonedDateTime, zonedDateTime)) {
         R.string.updated_minutes to todayMinutesFormatter
     } else if (isToday) {
         R.string.updated_hours to todayHoursFormatter
     } else {
         R.string.updated_on to dateFormatter
     }
-    return context.getString(resId, updatedAtLocalDateTime.format(formatter).format(formatter))
+    return context.getString(resId, localDateTime.format(formatter).format(formatter))
+}
+
+fun String.toFormattedCreatedDate(context: Context): String? {
+    if (isEmpty()) return ""
+    val nowZonedDateTime = now.atZone(zoneID)
+    val zonedDateTime = Instant.parse(this).atZone(zoneID)
+    val localDateTime = zonedDateTime.toLocalDateTime()
+
+    val isToday = isToday(nowZonedDateTime.toLocalDate(), zonedDateTime.toLocalDate())
+
+    val (resId, formatter) = if (isToday && isSameHour(nowZonedDateTime, zonedDateTime)) {
+        R.string.created_minutes to todayMinutesFormatter
+    } else if (isToday) {
+        R.string.created_hours to todayHoursFormatter
+    } else {
+        R.string.created_on to dateFormatter
+    }
+    return context.getString(resId, localDateTime.format(formatter).format(formatter))
 }

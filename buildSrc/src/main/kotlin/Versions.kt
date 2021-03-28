@@ -5,6 +5,7 @@ object Versions {
     const val koin = "2.2.1"
     const val mockito = "2.2.0"
     const val fuel = "2.3.1"
+    const val glide = "4.9.0"
 }
 
 object AndroidSdkVersions {

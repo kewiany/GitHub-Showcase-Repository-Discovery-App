@@ -12,10 +12,21 @@ fun createRepository(
     language: String = RandomString.make(),
     stars: Int = Random.nextInt(),
     watchers: Int = Random.nextInt(),
+    forks: Int = Random.nextInt(),
     updatedAt: String = RandomString.make(),
+    createdAt: String = RandomString.make(),
     user: User = createUser()
 ) = Repository(
-    id, name, description, language, stars, watchers, updatedAt, user
+    id,
+    name,
+    description,
+    language,
+    stars,
+    watchers,
+    forks,
+    updatedAt,
+    createdAt,
+    user
 )
 
 fun createUser(

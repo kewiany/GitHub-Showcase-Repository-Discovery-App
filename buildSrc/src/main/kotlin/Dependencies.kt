@@ -13,6 +13,8 @@ object Library {
     const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
     const val serializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
     const val threetenbp = "org.threeten:threetenbp:1.4.0"
+    const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
+    const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
     object AndroidX {
         const val core = "androidx.core:core-ktx:1.3.2"

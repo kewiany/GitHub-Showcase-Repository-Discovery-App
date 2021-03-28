@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/detailsCoordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,43 +11,219 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/detailsBackButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="back" />
+        <androidx.appcompat.widget.Toolbar
+            style="@style/Toolbar"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp">
+
+            <ImageButton
+                android:id="@+id/detailsBackButton"
+                style="@style/Widget.AppCompat.ActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back" />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/detailsSwipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:fillViewport="true"
+                android:fitsSystemWindows="true">
 
-                <TextView
-                    android:id="@+id/detailsNameTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/detailsDescriptionTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/detailsRepositoryInfoHeaderTextView"
+                        style="@style/RepositoryDetailsHeader"
+                        android:text="@string/information"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="MissingConstraints" />
 
-                <TextView
-                    android:id="@+id/detailsUserName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/detailsRepositoryNameTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:maxLines="2"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        app:layout_constraintEnd_toEndOf="@id/detailsRepositoryEndGuideline"
+                        app:layout_constraintStart_toStartOf="@id/detailsRepositoryStartGuideline"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryInfoHeaderTextView"
+                        tools:text="showcase" />
 
-                <TextView
-                    android:id="@+id/detailsUserFollowersList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/detailsRepositoryDescriptionTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:maxLines="5"
+                        android:minLines="1"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintEnd_toEndOf="@id/detailsRepositoryEndGuideline"
+                        app:layout_constraintStart_toStartOf="@id/detailsRepositoryStartGuideline"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryNameTextView"
+                        tools:text="sample app - mvvm" />
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/detailsRepositoryStarsImageView"
+                        style="@style/IconRepositoryDetailsItem"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ic_star"
+                        app:layout_constraintStart_toStartOf="@id/detailsRepositoryStartGuideline"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryDescriptionTextView" />
+
+                    <TextView
+                        android:id="@+id/detailsRepositoryStarsTextView"
+                        style="@style/TextIconRepositoryDetailsItem"
+                        app:layout_constraintBottom_toBottomOf="@id/detailsRepositoryStarsImageView"
+                        app:layout_constraintStart_toEndOf="@id/detailsRepositoryStarsImageView"
+                        app:layout_constraintTop_toTopOf="@id/detailsRepositoryStarsImageView"
+                        tools:text="123" />
+
+                    <ImageView
+                        android:id="@+id/detailsRepositoryWatchersImageView"
+                        style="@style/IconRepositoryDetailsItem"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ic_eye"
+                        app:layout_constraintStart_toStartOf="@id/detailsRepositoryStartGuideline"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryStarsImageView" />
+
+                    <TextView
+                        android:id="@+id/detailsRepositoryWatchersTextView"
+                        style="@style/TextIconRepositoryDetailsItem"
+                        app:layout_constraintBottom_toBottomOf="@id/detailsRepositoryWatchersImageView"
+                        app:layout_constraintStart_toEndOf="@id/detailsRepositoryWatchersImageView"
+                        app:layout_constraintTop_toTopOf="@id/detailsRepositoryWatchersImageView"
+                        tools:text="33" />
+
+                    <ImageView
+                        android:id="@+id/detailsRepositoryForksImageView"
+                        style="@style/IconRepositoryDetailsItem"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ic_fork"
+                        app:layout_constraintStart_toStartOf="@id/detailsRepositoryStartGuideline"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryWatchersImageView" />
+
+                    <TextView
+                        android:id="@+id/detailsRepositoryForksTextView"
+                        style="@style/TextIconRepositoryDetailsItem"
+                        app:layout_constraintBottom_toBottomOf="@id/detailsRepositoryForksImageView"
+                        app:layout_constraintStart_toEndOf="@id/detailsRepositoryForksImageView"
+                        app:layout_constraintTop_toTopOf="@id/detailsRepositoryForksImageView"
+                        tools:text="33" />
+
+                    <TextView
+                        android:id="@+id/detailsRepositoryUpdatedAt"
+                        style="@style/RepositoryDetailsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="@id/detailsRepositoryStartGuideline"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryForksImageView"
+                        tools:text="Updated on Mar 28, 2021" />
+
+
+                    <TextView
+                        android:id="@+id/detailsRepositoryCreatedAt"
+                        style="@style/RepositoryDetailsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="@id/detailsRepositoryStartGuideline"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryUpdatedAt"
+                        tools:text="Created on Mar 28, 2021" />
+
+                    <TextView
+                        android:id="@+id/detailsRepositoryLanguageHeaderTextView"
+                        style="@style/RepositoryDetailsHeader"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/language"
+                        app:layout_constraintEnd_toEndOf="@id/detailsRepositoryEndGuideline"
+                        app:layout_constraintStart_toStartOf="@id/detailsRepositoryStartGuideline"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryCreatedAt" />
+
+                    <TextView
+                        android:id="@+id/detailsRepositoryLanguageTextView"
+                        style="@style/RepositoryDetailsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        app:layout_constraintStart_toStartOf="@id/detailsRepositoryStartGuideline"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryLanguageHeaderTextView"
+                        tools:text="Kotlin" />
+
+                    <TextView
+                        android:id="@+id/detailsRepositoryOwnerHeaderTextView"
+                        style="@style/RepositoryDetailsHeader"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/owner"
+                        app:layout_constraintEnd_toEndOf="@id/detailsRepositoryEndGuideline"
+                        app:layout_constraintStart_toStartOf="@id/detailsRepositoryStartGuideline"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryLanguageTextView" />
+
+                    <ImageView
+                        android:id="@+id/detailsRepositoryOwnerImageView"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="6dp"
+                        app:layout_constraintStart_toStartOf="@id/detailsRepositoryStartGuideline"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryOwnerHeaderTextView"
+                        tools:src="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/detailsRepositoryOwnerTextView"
+                        style="@style/RepositoryDetailsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:lines="1"
+                        app:layout_constraintBottom_toBottomOf="@id/detailsRepositoryOwnerImageView"
+                        app:layout_constraintEnd_toEndOf="@id/detailsRepositoryEndGuideline"
+                        app:layout_constraintStart_toEndOf="@id/detailsRepositoryOwnerImageView"
+                        app:layout_constraintTop_toTopOf="@id/detailsRepositoryOwnerImageView"
+                        tools:text="kewiany" />
+
+                    <TextView
+                        android:id="@+id/detailsRepositoryOwnerFollowersHeaderTextView"
+                        style="@style/RepositoryDetailsHeader"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/followers_count"
+                        app:layout_constraintEnd_toEndOf="@id/detailsRepositoryEndGuideline"
+                        app:layout_constraintStart_toStartOf="@id/detailsRepositoryStartGuideline"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryOwnerImageView" />
+
+                    <LinearLayout
+                        android:id="@+id/detailsRepositoryOwnerFollowersLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/detailsRepositoryOwnerFollowersHeaderTextView" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/detailsRepositoryStartGuideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="16dp" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/detailsRepositoryEndGuideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="16dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
