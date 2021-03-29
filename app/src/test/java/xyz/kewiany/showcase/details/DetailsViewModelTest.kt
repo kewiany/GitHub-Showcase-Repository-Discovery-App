@@ -122,6 +122,20 @@ internal class DetailsViewModelTest : CustomFreeSpec({
             "set owner" { state.owner.value.shouldBe(user.name) }
             "set avatar" { state.avatar.value.shouldBe(user.avatar) }
             "set followers" { state.followers.value.shouldBe(users) }
+
+            "on load again" - {
+                viewModel.load(id)
+
+                "do not get repository details again" { verify(getRepositoryDetails, times(1)).invoke(id) }
+                "do not get user again" { verify(getUser, times(1)).invoke(user.name) }
+            }
+
+            "on refresh" - {
+                viewModel.refresh(id)
+
+                "get repository details" { verify(getRepositoryDetails, times(2)).invoke(id) }
+                "get user" { verify(getUser, times(2)).invoke(user.name) }
+            }
         }
 
         "on back" - {

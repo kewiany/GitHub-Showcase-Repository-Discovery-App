@@ -22,7 +22,7 @@ class DetailsViewModel(
     private val dateTimeFormatter: DateTimeFormatter,
     private val dispatchers: DispatcherProvider
 ) : ViewModel() {
-
+    private var repositoryId: Long? = null
     private var _repository: Repository? = null
     private var _owner: User? = null
     private var _followers: List<User>? = null
@@ -51,21 +51,29 @@ class DetailsViewModel(
         navigationCommander.popBackStack()
     }
 
-    fun load(id: Long) = viewModelScope.launch(dispatchers.main()) {
-        state.error.value = null
-        state.commonState.isLoading.value = true
-        try {
-            loadRepositoryDetails(id)
-            loadUser(requireNotNull(_repository?.user?.name))
-            updateState()
-        } catch (e: Exception) {
-            when (e) {
-                is LoadDetailsException -> {
-                    state.error.value = e.errorType
+    fun refresh(id: Long) {
+        load(id, true)
+    }
+
+    fun load(id: Long, forceRefresh: Boolean = false) {
+        if (repositoryId == id && !forceRefresh) return
+        repositoryId = id
+        viewModelScope.launch(dispatchers.main()) {
+            state.error.value = null
+            state.commonState.isLoading.value = true
+            try {
+                loadRepositoryDetails(id)
+                loadUser(requireNotNull(_repository?.user?.name))
+                updateState()
+            } catch (e: Exception) {
+                when (e) {
+                    is LoadDetailsException -> {
+                        state.error.value = e.errorType
+                    }
                 }
             }
+            state.commonState.isLoading.value = false
         }
-        state.commonState.isLoading.value = false
     }
 
     private fun updateState() = with(state) {

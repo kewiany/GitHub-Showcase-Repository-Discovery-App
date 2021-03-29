@@ -42,7 +42,7 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
             launch { viewModel.error.collect { updateError(it) } }
         }
         detailsBackButton.setOnClickListener { viewModel.back() }
-        detailsSwipeRefreshLayout.setOnRefreshListener { viewModel.load(requireNotNull(id)) }
+        detailsSwipeRefreshLayout.setOnRefreshListener { viewModel.refresh(requireNotNull(id)) }
         viewModel.load(requireNotNull(id))
     }
 
