@@ -5,18 +5,14 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.details_fragment.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.kewiany.showcase.R
 import xyz.kewiany.showcase.entity.User
+import xyz.kewiany.showcase.utils.*
 import xyz.kewiany.showcase.utils.Constant.REPOSITORY_KEY
-import xyz.kewiany.showcase.utils.ErrorType
-import xyz.kewiany.showcase.utils.setStandardScreenMode
-import xyz.kewiany.showcase.utils.snackBar
-import xyz.kewiany.showcase.utils.translate
 
 class DetailsFragment : Fragment(R.layout.details_fragment) {
 
@@ -90,10 +86,7 @@ class DetailsFragment : Fragment(R.layout.details_fragment) {
     }
 
     private fun updateAvatar(avatar: String) {
-        Glide.with(requireContext())
-            .load(avatar)
-            .circleCrop()
-            .into(detailsRepositoryOwnerImageView)
+        detailsRepositoryOwnerImageView.loadImage(avatar)
     }
 
     private fun updateUserFollowers(followers: List<User>) {

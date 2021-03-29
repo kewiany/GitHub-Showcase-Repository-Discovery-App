@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.follower_item_view.view.*
 import xyz.kewiany.showcase.R
+import xyz.kewiany.showcase.utils.loadImage
 
 class FollowerItemView @JvmOverloads constructor(
     context: Context,
@@ -17,10 +17,7 @@ class FollowerItemView @JvmOverloads constructor(
     var avatar: String? = null
         set(value) {
             field = value
-            Glide.with(this)
-                .load(avatar)
-                .circleCrop()
-                .into(followerImageView)
+            field?.apply(followerImageView::loadImage)
         }
     var name: String? = null
         set(value) {
